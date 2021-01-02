@@ -1,0 +1,25 @@
+.Table {
+	display: grid;
+	place-items: center;
+	margin-top: 5rem;
+}
+
+.row-name {
+	text-align: left;
+}
+
+.row-stat {
+	text-align: center;
+}
+
+.row-team {
+	text-align: center;
+}
+
+table {
+	width: 800px;
+}
+
+.table-header {
+	background-color: lightgray;
+}
