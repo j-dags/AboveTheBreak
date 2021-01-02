@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
+// import { Button, Form } from 'semantic-ui-react';
+
 import {
 	BarChart,
 	Bar,
-	Cell,
+	// Cell,
 	XAxis,
 	YAxis,
 	CartesianGrid,
@@ -13,21 +15,30 @@ import './BarTableHistogram.css';
 
 export default class BarTableHistogram extends PureComponent {
 	static jsfiddleUrl = 'https://jsfiddle.net/alidingling/9kd8rssL/';
+	constructor() {
+		super();
+		this.state = { decimals: 10 };
+		this.handleChange = this.handleChange.bind(this);
+	}
+
+	handleChange(evt) {
+		let value = parseInt(evt.target.value);
+		console.log('value > ', value, typeof value);
+		this.setState({ decimals: value });
+		console.log('state > ', this.state);
+	}
 
 	render() {
 		let { data, stat } = this.props;
-		let decimals = 10;
 		let dist = {};
-
-		if (stat === 'pts') decimals = 1;
-		if (stat === 'fgPct') decimals = 100;
-		if (stat === 'ftPct') decimals = 100;
 
 		if (data.length > 0) {
 			// Parse and sort data for the specified stat
 			data = data.map((player) => player[stat]);
 			data = data
-				.map((val) => Math.round(val * decimals) / decimals)
+				.map(
+					(val) => Math.round(val * this.state.decimals) / this.state.decimals
+				)
 				.sort((a, b) => a - b);
 
 			// Create a stat:stat-frequency object
@@ -43,18 +54,43 @@ export default class BarTableHistogram extends PureComponent {
 					return { name: key, val: dist[key] };
 				})
 				.sort((a, b) => parseInt(a.name) - parseInt(b.name));
-
-			console.log('dist > ', dist);
 		}
 
 		return !data ? (
 			<div>Loading</div>
 		) : (
 			<div className="chart">
-				<h2>{stat} Distribution</h2>
-				{/* <BarChart width={500} height={300} data={dist}>
-					<Bar dataKey="val" fill="#8884d8" />
-				</BarChart> */}
+				<h3>{stat} Distribution</h3>
+				<div className="field">
+					<label>Bars/Integer </label>
+					<select
+						name="Decimal"
+						className="ui fluid dropdown"
+						onChange={this.handleChange}
+						type="number"
+						value={this.state.decimals}
+					>
+						<option key={0} value={1}>
+							1
+						</option>
+						<option key={1} value={2}>
+							2
+						</option>
+						<option key={2} value={4}>
+							4
+						</option>
+						<option key={3} value={10}>
+							10
+						</option>
+						<option key={4} value={100}>
+							100
+						</option>
+						<option key={5} value={1000}>
+							1000
+						</option>
+					</select>
+				</div>
+
 				<BarChart
 					width={500}
 					height={300}

@@ -1,5 +1,5 @@
 import React from 'react';
-import BarTable from './BarTable';
+// import BarTable from './BarTable';
 import BarTableHistogram from './BarTableHistogram';
 import './StatChart.css';
 

@@ -1,3 +1,13 @@
-h2 {
+* {
+	margin: 0;
+}
+
+h3 {
 	text-align: center;
+	margin: 0.5rem;
+}
+
+.field {
+	text-align: center;
+	margin: 0.5rem;
 }
