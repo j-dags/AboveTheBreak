@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-// import { Button, Form } from 'semantic-ui-react';
+import './Histogram.css';
 
 import {
 	BarChart,
@@ -11,9 +11,8 @@ import {
 	Tooltip,
 	Legend,
 } from 'recharts';
-import './BarTableHistogram.css';
 
-export default class BarTableHistogram extends PureComponent {
+export default class Histogram extends PureComponent {
 	static jsfiddleUrl = 'https://jsfiddle.net/alidingling/9kd8rssL/';
 	constructor() {
 		super();
@@ -23,9 +22,7 @@ export default class BarTableHistogram extends PureComponent {
 
 	handleChange(evt) {
 		let value = parseInt(evt.target.value);
-		console.log('value > ', value, typeof value);
 		this.setState({ decimals: value });
-		console.log('state > ', this.state);
 	}
 
 	render() {

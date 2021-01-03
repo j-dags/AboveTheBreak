@@ -1,25 +1,56 @@
+.player-charts {
+	background-color: #f6f6f6;
+}
+
+.row-name {
+	text-align: left;
+	padding: 0.5rem;
+	color: #0268d6;
+}
+
+.row-header-name {
+	text-align: left;
+	padding: 0.5rem;
+	/* color: white; */
+}
+
+.row-rank {
+	text-align: center;
+	padding: 0.5rem 0rem 0.5rem 2rem;
+}
+
+.row-stat {
+	text-align: center;
+	padding: 0.5rem;
+}
+
+.row-team {
+	text-align: center;
+	padding: 0.5rem;
+}
+
+.table-header {
+	background-color: #e7e7e7;
+	border-color: #e7e7e7;
+	color: #545454;
+}
+
+.table-row {
+	border-bottom: 1px solid #e7e7e7;
+	/* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15); */
+}
+
 .Table {
 	display: grid;
 	place-items: center;
 	margin-top: 5rem;
 }
 
-.row-name {
-	text-align: left;
-}
-
-.row-stat {
-	text-align: center;
-}
-
-.row-team {
-	text-align: center;
-}
-
 table {
-	width: 800px;
-}
-
-.table-header {
-	background-color: lightgray;
+	background-color: white;
+	border-collapse: collapse;
+	padding: 1rem;
+	border-radius: 5px;
+	width: 1200px;
+	box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.15);
 }

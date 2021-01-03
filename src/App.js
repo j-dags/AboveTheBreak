@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Table from './Table';
 import Navbar from './Navbar';
-import StatCharts from './StatCharts';
+import LeagueCharts from './LeagueCharts';
 
 function App() {
 	const [data, setData] = useState({ players: [] });
@@ -31,7 +31,7 @@ function App() {
 					/>
 					<Route
 						path="/stat-charts"
-						render={() => <StatCharts data={data} loaded={loaded} />}
+						render={() => <LeagueCharts data={data} loaded={loaded} />}
 					/>
 				</Switch>
 			</div>
