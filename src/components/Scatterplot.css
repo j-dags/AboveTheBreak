@@ -2,8 +2,21 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin: 0rem 1.25rem 0rem 0rem;
 }
 
+.chart-container {
+	border-radius: 2px;
+	background-color: white;
+	margin: 2rem;
+}
+
+.chart-title {
+	margin: 1rem 0.5rem 0.5rem 0.5rem;
+	text-align: center;
+	font-size: 0.75rem;
+	font-weight: 600;
+}
 .recharts-wrapper {
 	background-color: white;
 	border-radius: 2px;
@@ -11,4 +24,8 @@
 
 .recharts-default-legend {
 	line-height: 0;
+}
+
+line {
+	opacity: 0.5;
 }

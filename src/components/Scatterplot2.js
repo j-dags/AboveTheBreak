@@ -7,13 +7,22 @@ Credit @isaaguilar.
 
 import React, { useRef, useEffect } from 'react';
 import { scaleLinear, max, axisLeft, axisBottom, select } from 'd3';
+import './Scatterplot.css';
 
 const sortNumber = (a, b) => {
 	return a - b;
 };
 
-const ScatterPlot2 = ({ data, stat }) => {
-	data = data.map((player) => [player.gp, player[stat]]);
+const ScatterPlot2 = ({ data, stat, name }) => {
+	let playerDot = [];
+	data = data.map((player) => {
+		let color = '#AAC7DA';
+		if (player.playerName === name)
+			playerDot = [player.gp, player[stat], '#e63946'];
+		return [player.gp, player[stat], color];
+	});
+
+	data.push(playerDot);
 
 	const margin = { top: 20, right: 15, bottom: 60, left: 60 };
 	const width = 300 - margin.left - margin.right;
@@ -40,8 +49,8 @@ const ScatterPlot2 = ({ data, stat }) => {
 	console.log('x > ', axisBottom().scale(x));
 
 	return (
-		<div>
-			<h3> Scatter Plot with Trend Line </h3>
+		<div className="chart-container">
+			<div className="chart-title"> {stat.toUpperCase()} DISTRIBUTION</div>
 			<svg
 				width={width + margin.right + margin.left}
 				height={height + margin.top + margin.bottom}
@@ -73,13 +82,12 @@ const ScatterPlot2 = ({ data, stat }) => {
 
 const RenderCircles = (props) => {
 	let renderCircles = props.data.map((coords, i) => {
-		let fill = '#AAC7DA';
 		return (
 			<circle
 				cx={props.scale.x(coords[0])}
 				cy={props.scale.y(coords[1])}
 				r="4"
-				style={{ fill: '#AAC7DA', opacity: 0.9 }}
+				style={{ fill: coords[2], opacity: 0.9 }}
 				key={i}
 			/>
 		);

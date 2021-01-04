@@ -48,7 +48,12 @@ const PlayerCharts = ({ data, player }) => {
 		<div className="container">
 			{stats.map((stat) => (
 				// <Scatterplot key={stat} data={data} player={player} stat={stat} />
-				<Scatterplot2 key={stat} data={data} stat={stat} />
+				<Scatterplot2
+					key={stat}
+					data={data}
+					stat={stat}
+					name={player.playerName}
+				/>
 			))}
 		</div>
 	);
