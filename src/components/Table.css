@@ -1,5 +1,24 @@
-.player-charts {
+.player-charts-row {
 	background-color: #f6f6f6;
+}
+
+.inactive {
+	background-color: #f6f6f6;
+	height: 0;
+	padding: 0 10px;
+	opacity: 0;
+	box-sizing: border-box;
+	overflow: hidden;
+	transition: height 0.3s, padding 0.3s, opacity 1s;
+}
+
+.active {
+	height: 1000px;
+	padding: 10px 10px;
+	opacity: 1;
+	transition: height 0.3s, padding 0.3s, opacity 1s;
+	display: grid;
+	place-content: center;
 }
 
 .row-name {

@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "dependencies": {
+    "@agney/react-loading": "^0.1.2",
     "@syncfusion/ej2-charts": "^18.4.30",
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
@@ -19,6 +20,7 @@
     "react-dom": "^16.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-spring": "^8.0.27",
     "recharts": "^1.8.5",
     "semantic-ui-react": "^2.0.1",
     "web-vitals": "^0.2.4"

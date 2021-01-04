@@ -1,18 +1,23 @@
 import './Table.css';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import PlayerCharts from './PlayerCharts';
-import _ from 'lodash';
+// import Slide from './Slide';
+// import _ from 'lodash';
 
 // import NBA from 'nba';
 
 const Table = (props) => {
 	const { data, loaded } = props;
 	const [charts, setCharts] = useState(null);
-	let [rank, setRank] = useState(0);
+	let [active, setActive] = useState(false);
 	let i = 0;
-	const toggleCharts = (evt) => {
-		if (!charts) setCharts(evt.target.dataset.value);
-		else setCharts(null);
+
+	// const toggleActive = () => setActive(!active);
+
+	const handleClick = (evt) => {
+		setCharts(evt.target.dataset.value);
+		if (!active) setActive(true);
+		if (evt.target.dataset.value === charts && active) setActive(false);
 	};
 
 	// const getStats = async () => {
@@ -29,8 +34,8 @@ const Table = (props) => {
 				<tbody>
 					<tr className="table-header">
 						<th className="row-rank">#</th>
-						<th className="row-header-name">TEAM</th>
-						<th className="row-team">NAME</th>
+						<th className="row-header-name">NAME</th>
+						<th className="row-team">TEAM</th>
 						<th className="row-stat">3PM</th>
 						<th className="row-stat">PTS</th>
 						<th className="row-stat">REB</th>
@@ -44,7 +49,7 @@ const Table = (props) => {
 						i++;
 						return (
 							<React.Fragment key={player.playerName}>
-								<tr onClick={toggleCharts} className="table-row">
+								<tr onClick={handleClick} className="table-row">
 									<td className="row-rank">{i}</td>
 									<td className="row-name" data-value={player.playerName}>
 										{player.playerName}
@@ -59,16 +64,18 @@ const Table = (props) => {
 									<td className="row-stat">{player.fgPct.toFixed(1)}</td>
 									<td className="row-stat">{player.ftPct.toFixed(1)}</td>
 								</tr>
-								{charts === player.playerName ? (
-									<tr key={player.pts} className="player-charts">
-										<td colSpan="11">
-											{console.log(charts)}
-											<PlayerCharts data={data} player={player} />
-										</td>
-									</tr>
-								) : (
-									<></>
-								)}
+								<tr key={player.pts} className="player-charts-row">
+									<td colSpan="11">
+										{charts === player.playerName && active ? (
+											<div className="active">
+												<PlayerCharts data={data} player={player} />
+												{/* LOADING */}
+											</div>
+										) : (
+											<div className="inactive"></div>
+										)}
+									</td>
+								</tr>
 							</React.Fragment>
 						);
 					})}
