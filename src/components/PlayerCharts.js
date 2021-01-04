@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 // import BarTable from './BarTable';
 import Scatterplot from './Scatterplot';
-import Slide from './Slide';
 import './PlayerCharts.css';
-import { useLoading, BallTriangle } from '@agney/react-loading';
+import { useLoading, Grid } from '@agney/react-loading';
+import Scatterplot2 from './Scatterplot2';
 
 const PlayerCharts = ({ data, player }) => {
-	const [renderData, setRenderData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const { containerProps, indicatorEl } = useLoading({
 		loading: true,
-		indicator: <BallTriangle width="75" />,
+		indicator: <Grid width="50" />,
 	});
 
 	const stats = [
@@ -26,25 +25,32 @@ const PlayerCharts = ({ data, player }) => {
 	];
 
 	useEffect(() => {
-		if (renderData.length < 1) {
-			stats.forEach((stat) =>
-				setRenderData((renderData) => [
-					...renderData,
-					<Scatterplot key={stat} data={data} player={player} stat={stat} />,
-				])
-			);
-		}
-		if (renderData.length > 8) {
-			setTimeout(() => setLoading(false), 2000);
+		if (loading) {
+			setTimeout(() => setLoading(false), 10);
 		}
 	});
 
-	return loading ? (
+	// return loading ? (
+	// 	<div className="container">
+	// 		<section {...containerProps}>{indicatorEl}</section>
+	// 	</div>
+	// ) : (
+	// 	<div className="container">
+	// 		{stats.map((stat) => (
+	// 			// <Scatterplot key={stat} data={data} player={player} stat={stat} />
+	// 			<Scatterplot2 key={stat} data={data} stat={stat} />
+	// 		))}
+	// 	</div>
+	// );
+	// };
+
+	return (
 		<div className="container">
-			<section {...containerProps}>{indicatorEl}</section>
+			{stats.map((stat) => (
+				// <Scatterplot key={stat} data={data} player={player} stat={stat} />
+				<Scatterplot2 key={stat} data={data} stat={stat} />
+			))}
 		</div>
-	) : (
-		<div className="container">{renderData.map((el) => el)}</div>
 	);
 };
 

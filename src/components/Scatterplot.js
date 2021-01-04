@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import './Scatterplot.css';
 import {
 	ScatterChart,
 	Scatter,
@@ -23,8 +24,8 @@ export default class Example extends PureComponent {
 		}));
 
 		return (
-			<div>
-				<div>{stat}</div>
+			<div className="chart">
+				<h3>{stat.toUpperCase()} </h3>
 				<ScatterChart
 					width={300}
 					height={300}
@@ -32,7 +33,7 @@ export default class Example extends PureComponent {
 						top: 20,
 						right: 20,
 						bottom: 20,
-						left: 20,
+						left: 0,
 					}}
 				>
 					<CartesianGrid />

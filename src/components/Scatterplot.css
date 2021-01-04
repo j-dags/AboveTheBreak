@@ -1,0 +1,14 @@
+.chart {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.recharts-wrapper {
+	background-color: white;
+	border-radius: 2px;
+}
+
+.recharts-default-legend {
+	line-height: 0;
+}
