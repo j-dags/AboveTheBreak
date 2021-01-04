@@ -13,7 +13,7 @@ function App() {
 	useEffect(() => {
 		const fetchData = async () => {
 			const { data } = await axios.get('/stats');
-			setData(data);
+			setData(data.sort((a, b) => a.nbaFantasyPtsRank - b.nbaFantasyPtsRank));
 			setLoaded(true);
 		};
 		fetchData();
@@ -21,20 +21,20 @@ function App() {
 
 	return (
 		<Router>
-			<div>
-				<Navbar />
-				<Switch>
-					<Route
-						exact
-						path="/"
-						render={() => <Table data={data} loaded={loaded} />}
-					/>
-					<Route
-						path="/stat-charts"
-						render={() => <LeagueCharts data={data} loaded={loaded} />}
-					/>
-				</Switch>
-			</div>
+			{/* <div> */}
+			<Navbar />
+			<Switch>
+				<Route
+					exact
+					path="/"
+					render={() => <Table data={data} loaded={loaded} />}
+				/>
+				<Route
+					path="/stat-charts"
+					render={() => <LeagueCharts data={data} loaded={loaded} />}
+				/>
+			</Switch>
+			{/* </div> */}
 		</Router>
 	);
 }

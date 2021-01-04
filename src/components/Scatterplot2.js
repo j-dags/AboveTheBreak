@@ -5,7 +5,7 @@ See the LinearGraph for an example of calling ScatterPlot
 Credit @isaaguilar.
 */
 
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { scaleLinear, max, axisLeft, axisBottom, select } from 'd3';
 import './Scatterplot.css';
 
@@ -45,8 +45,6 @@ const ScatterPlot2 = ({ data, stat, name }) => {
 			}),
 		])
 		.range([height, 0]);
-
-	console.log('x > ', axisBottom().scale(x));
 
 	return (
 		<div className="chart-container">

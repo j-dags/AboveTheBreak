@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 	try {
 		const stats = await NBA.stats.playerStats({ Season: '2020-21' });
 		const players = stats.leagueDashPlayerStats.filter(
-			(player) => player.nbaFantasyPtsRank <= 100
+			(player) => player.nbaFantasyPtsRank <= 200
 		);
 		// const stats = await NBA.stats.playerInfo({ PlayerID: 201939 });
 		res.json(players);
@@ -22,10 +22,10 @@ router.get('/', async (req, res, next) => {
 	}
 });
 
-router.get('/curry', async (req, res, next) => {
+router.get('/player', async (req, res, next) => {
 	try {
 		// const stats = await NBA.stats.playerStats({ SeasonId: 12020 });
-		const stats = await NBA.stats.playerInfo({ PlayerID: 201939 });
+		const stats = await NBA.stats.homepageV2({});
 		res.json(stats);
 	} catch (err) {
 		next(err);

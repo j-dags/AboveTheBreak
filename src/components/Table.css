@@ -27,6 +27,10 @@
 	color: #0268d6;
 }
 
+.row-name:hover {
+	cursor: pointer;
+}
+
 .row-header-name {
 	text-align: left;
 	padding: 0.5rem;
@@ -52,6 +56,10 @@
 	background-color: #e7e7e7;
 	border-color: #e7e7e7;
 	color: #545454;
+}
+
+.table-header:hover {
+	cursor: pointer;
 }
 
 .table-row {
