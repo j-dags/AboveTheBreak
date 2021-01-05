@@ -23,4 +23,16 @@ h3 {
 	display: flex;
 	flex-direction: column;
 	margin: 2rem 0rem;
+
+	max-width: 100%;
+	position: relative;
+
+	border: none;
+	border-radius: 0.28571429rem;
+	box-shadow: 0 2px 4px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+	transition: box-shadow 0.1s ease, transform 0.1s ease;
+}
+
+select {
+	height: 25px;
 }

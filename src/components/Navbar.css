@@ -1,0 +1,28 @@
+#navbar {
+	font-size: 0.875rem;
+	display: flex;
+	flex-direction: row;
+	/* justify-content: space-between; */
+	margin: 1rem 0rem;
+	width: 1300px;
+}
+
+nav {
+	display: flex;
+	background: #475841;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+
+a {
+	margin-right: 1rem;
+	color: white;
+	text-decoration: none;
+}
+
+a:visited {
+	color: white;
+}

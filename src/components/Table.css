@@ -17,21 +17,28 @@
 	padding: 10px 10px;
 	opacity: 1;
 	transition: height 0.3s, padding 0.3s, opacity 1s;
-	/* display: grid; */
-	/* place-content: center; */
-
 	display: flex;
 	flex-wrap: wrap;
 	width: 100%;
 	justify-content: space-around;
-	/* animation: fadeIn ease 1s; */
-	/* transition: opacity 1s ease-in-out; */
+}
+
+h1 {
+	font-size: 1.5rem;
+	margin: 2rem 0rem 2rem 0rem;
+}
+
+#table-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin-top: 3rem;
 }
 
 .row-name {
 	text-align: left;
-	padding: 0.5rem;
 	color: #0268d6;
+	padding-left: 1rem;
 }
 
 .row-name:hover {
@@ -40,29 +47,29 @@
 
 .row-header-name {
 	text-align: left;
-	padding: 0.5rem;
-	/* color: white; */
+	padding-left: 1rem;
 }
 
 .row-rank {
 	text-align: center;
-	padding: 0.5rem 0rem 0.5rem 2rem;
 }
 
 .row-stat {
 	text-align: center;
-	padding: 0.5rem;
 }
 
 .row-team {
 	text-align: center;
-	padding: 0.5rem;
 }
 
 .table-header {
-	background-color: #e7e7e7;
-	border-color: #e7e7e7;
+	background-color: #eeeeee;
+	border-color: #eeeeee;
 	color: #545454;
+	font-size: 0.6rem;
+	height: 40px;
+	padding: 1rem;
+	opacity: 0.9;
 }
 
 .table-header:hover {
@@ -71,20 +78,25 @@
 
 .table-row {
 	border-bottom: 1px solid #e7e7e7;
+	height: 40px;
 	/* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15); */
 }
 
-.Table {
-	display: grid;
-	place-items: center;
-	margin-top: 5rem;
+th {
+	font-weight: 300;
 }
+
+/* tr {
+	height: 40px;
+} */
 
 table {
 	background-color: white;
 	border-collapse: collapse;
 	padding: 1rem;
 	border-radius: 5px;
-	width: 1200px;
-	box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.15);
+	width: 1300px;
+	/* box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.15); */
+	box-shadow: 0 2px 4px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+	margin: 0.1rem;
 }

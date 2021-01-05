@@ -21,7 +21,6 @@ function App() {
 
 	return (
 		<Router>
-			{/* <div> */}
 			<Navbar />
 			<Switch>
 				<Route
@@ -34,7 +33,6 @@ function App() {
 					render={() => <LeagueCharts loaded={loaded} />}
 				/>
 			</Switch>
-			{/* </div> */}
 		</Router>
 	);
 }

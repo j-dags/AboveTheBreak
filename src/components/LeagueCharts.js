@@ -23,33 +23,35 @@ const LeagueCharts = () => {
 		<div>Loading...</div>
 	) : (
 		<React.Fragment>
-			<h1>League Stats</h1>
-			<select
-				name="Decimal"
-				className="ui fluid dropdown"
-				onChange={(e) => setYear(e.target.value)}
-				type="number"
-				value={year}
-			>
-				<option key={0} value={'2020-21'}>
-					2020-21
-				</option>
-				<option key={1} value={'2019-20'}>
-					2019-20
-				</option>
-				<option key={2} value={'2018-19'}>
-					2018-19
-				</option>
-				<option key={3} value={'2017-18'}>
-					2017-18
-				</option>
-				<option key={4} value={'2016-17'}>
-					2016-17
-				</option>
-				<option key={5} value={'2015-16'}>
-					2015-16
-				</option>
-			</select>
+			<div className="histogram-header">
+				<h1>League Stats</h1>
+				<select
+					name="Decimal"
+					className="ui fluid dropdown"
+					onChange={(e) => setYear(e.target.value)}
+					type="number"
+					value={year}
+				>
+					<option key={0} value={'2020-21'}>
+						2020-21
+					</option>
+					<option key={1} value={'2019-20'}>
+						2019-20
+					</option>
+					<option key={2} value={'2018-19'}>
+						2018-19
+					</option>
+					<option key={3} value={'2017-18'}>
+						2017-18
+					</option>
+					<option key={4} value={'2016-17'}>
+						2016-17
+					</option>
+					<option key={5} value={'2015-16'}>
+						2015-16
+					</option>
+				</select>
+			</div>
 			<div id="histogram-container">
 				<Histogram data={data} stat={'fG3M'} />
 				<Histogram data={data} stat={'pts'} />

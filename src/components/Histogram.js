@@ -2,15 +2,7 @@ import React, { PureComponent } from 'react';
 
 import './Histogram.css';
 
-import {
-	BarChart,
-	Bar,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	Legend,
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 const defaultBars = {
 	fG3M: 4,
@@ -111,20 +103,19 @@ export default class Histogram extends PureComponent {
 
 				<BarChart
 					width={400}
-					height={250}
+					height={300}
 					data={dist}
 					margin={{
-						top: 30,
+						top: 40,
 						right: 40,
 						left: 0,
-						bottom: 5,
+						bottom: 30,
 					}}
 				>
 					<CartesianGrid strokeDasharray="3 3" />
 					<XAxis dataKey="name" />
 					<YAxis />
 					<Tooltip />
-					<Legend />
 					<Bar dataKey="val" fill="#82ca9d" />
 				</BarChart>
 			</div>
