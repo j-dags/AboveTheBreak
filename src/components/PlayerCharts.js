@@ -17,7 +17,8 @@ const PlayerCharts = ({ data, player }) => {
 	];
 
 	return (
-		<div className="container">
+		// <div className="container">
+		<React.Fragment>
 			{stats.map((stat) => (
 				<Scatterplot2
 					key={stat}
@@ -26,7 +27,8 @@ const PlayerCharts = ({ data, player }) => {
 					name={player.playerName}
 				/>
 			))}
-		</div>
+		</React.Fragment>
+		// </div>
 	);
 };
 

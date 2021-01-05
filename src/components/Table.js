@@ -121,7 +121,7 @@ const Table = ({ data, loaded }) => {
 									<td className="row-stat">{player.tov.toFixed()}</td>
 								</tr>
 								<tr key={player.pts} className="player-charts-row">
-									<td colSpan="11">
+									<td colSpan="12">
 										{charts === player.playerName && active ? (
 											<div className="active">
 												<PlayerCharts data={data} player={player} />

@@ -12,7 +12,7 @@
     "axios": "^0.21.1",
     "d3": "^6.3.1",
     "firebase": "^8.2.1",
-    "lodash": "^4.17.20",
+
     "morgan": "^1.10.0",
     "nba": "^4.13.0",
     "plottable": "^3.9.0",
@@ -22,6 +22,7 @@
     "react-scripts": "4.0.1",
     "react-spring": "^8.0.27",
     "recharts": "^1.8.5",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
     "web-vitals": "^0.2.4"
   },
@@ -31,7 +32,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon server",
-    "start-server": "nodemon server && react-scripts start"
+    "start-server": "nodemon server && react-scripts start",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.4"
   },
   "eslintConfig": {
     "extends": [

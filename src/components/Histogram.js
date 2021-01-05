@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
+
 import './Histogram.css';
 
 import {
 	BarChart,
 	Bar,
-	// Cell,
 	XAxis,
 	YAxis,
 	CartesianGrid,
@@ -12,12 +12,28 @@ import {
 	Legend,
 } from 'recharts';
 
+const defaultBars = {
+	fG3M: 4,
+	pts: 1,
+	reb: 4,
+	ast: 4,
+	stl: 4,
+	blk: 4,
+	fgPct: 100,
+	ftPct: 100,
+	tov: 4,
+};
+
 export default class Histogram extends PureComponent {
 	static jsfiddleUrl = 'https://jsfiddle.net/alidingling/9kd8rssL/';
 	constructor() {
 		super();
-		this.state = { decimals: 10 };
+		this.state = { decimals: 4 };
 		this.handleChange = this.handleChange.bind(this);
+	}
+
+	componentDidMount() {
+		this.setState({ decimals: defaultBars[this.props.stat] });
 	}
 
 	handleChange(evt) {
@@ -56,46 +72,51 @@ export default class Histogram extends PureComponent {
 		return !data ? (
 			<div>Loading</div>
 		) : (
-			<div className="chart">
-				<h3>{stat} Distribution</h3>
-				<div className="field">
-					<label>Bars/Integer </label>
-					<select
-						name="Decimal"
-						className="ui fluid dropdown"
-						onChange={this.handleChange}
-						type="number"
-						value={this.state.decimals}
-					>
-						<option key={0} value={1}>
-							1
-						</option>
-						<option key={1} value={2}>
-							2
-						</option>
-						<option key={2} value={4}>
-							4
-						</option>
-						<option key={3} value={10}>
-							10
-						</option>
-						<option key={4} value={100}>
-							100
-						</option>
-						<option key={5} value={1000}>
-							1000
-						</option>
-					</select>
+			<div className="histogram">
+				<div className="histogram-title">
+					<h3>{stat.toUpperCase()} DISTRIBUTION</h3>
+					<div className="field">
+						<label>Bars/Integer </label>
+						<select
+							name="Decimal"
+							className="ui fluid dropdown"
+							onChange={this.handleChange}
+							type="number"
+							value={this.state.decimals}
+						>
+							<option key={0} value={1}>
+								1
+							</option>
+							<option key={1} value={2}>
+								2
+							</option>
+							<option key={2} value={4}>
+								4
+							</option>
+							<option key={3} value={10}>
+								10
+							</option>
+							<option key={4} value={50}>
+								50
+							</option>
+							<option key={5} value={100}>
+								100
+							</option>
+							<option key={6} value={1000}>
+								1000
+							</option>
+						</select>
+					</div>
 				</div>
 
 				<BarChart
-					width={500}
-					height={300}
+					width={400}
+					height={250}
 					data={dist}
 					margin={{
-						top: 5,
-						right: 30,
-						left: 20,
+						top: 30,
+						right: 40,
+						left: 0,
 						bottom: 5,
 					}}
 				>

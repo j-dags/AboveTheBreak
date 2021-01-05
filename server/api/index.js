@@ -9,11 +9,12 @@ const router = require('express').Router();
 // 	}
 // });
 
-router.get('/', async (req, res, next) => {
+// Get player stats for a given year
+router.get('/:year', async (req, res, next) => {
 	try {
-		const stats = await NBA.stats.playerStats({ Season: '2020-21' });
+		const stats = await NBA.stats.playerStats({ Season: req.params.year });
 		const players = stats.leagueDashPlayerStats.filter(
-			(player) => player.nbaFantasyPtsRank <= 200
+			(player) => player.nbaFantasyPtsRank <= 130
 		);
 		// const stats = await NBA.stats.playerInfo({ PlayerID: 201939 });
 		res.json(players);

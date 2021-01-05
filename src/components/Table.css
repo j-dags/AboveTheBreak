@@ -17,8 +17,15 @@
 	padding: 10px 10px;
 	opacity: 1;
 	transition: height 0.3s, padding 0.3s, opacity 1s;
-	display: grid;
-	place-content: center;
+	/* display: grid; */
+	/* place-content: center; */
+
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	justify-content: space-around;
+	/* animation: fadeIn ease 1s; */
+	/* transition: opacity 1s ease-in-out; */
 }
 
 .row-name {
