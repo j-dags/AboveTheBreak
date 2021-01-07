@@ -26,7 +26,7 @@ const ScatterPlot2 = ({ data, stat, name }) => {
 
 	const margin = { top: 20, right: 15, bottom: 60, left: 60 };
 	const width = 300 - margin.left - margin.right;
-	const height = 250 - margin.top - margin.bottom;
+	const height = 200 - margin.top - margin.bottom;
 
 	const x = scaleLinear()
 		.domain([

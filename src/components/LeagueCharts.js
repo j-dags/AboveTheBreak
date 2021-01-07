@@ -7,24 +7,22 @@ import './LeagueCharts.css';
 
 const LeagueCharts = () => {
 	const [data, setData] = useState({});
-	const [loaded, setLoaded] = useState(false);
+	// const [loaded, setLoaded] = useState(false);
 	const [year, setYear] = useState('2020-21');
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const { data } = await axios.get(`/stats/${year}`);
 			setData(data);
-			setLoaded(true);
+			// setLoaded(true);
 		};
 		fetchData();
 	}, [year]);
 
-	return !loaded ? (
-		<div>Loading...</div>
-	) : (
-		<React.Fragment>
+	return (
+		<div id="histogram-body">
 			<div className="histogram-header">
-				<h1>League Stats</h1>
+				<h1>Categorical Distributions.</h1>
 				<select
 					name="Decimal"
 					className="ui fluid dropdown"
@@ -63,7 +61,7 @@ const LeagueCharts = () => {
 				<Histogram data={data} stat={'ftPct'} />
 				<Histogram data={data} stat={'tov'} />
 			</div>
-		</React.Fragment>
+		</div>
 	);
 
 	// </div>

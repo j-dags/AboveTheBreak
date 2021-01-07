@@ -7,9 +7,9 @@
 	width: 1300px;
 }
 
-nav {
+.nav {
 	display: flex;
-	background: #475841;
+	background: white;
 	justify-content: center;
 	position: fixed;
 	top: 0;
@@ -17,12 +17,17 @@ nav {
 	z-index: 1;
 }
 
+.nav.add-shadow {
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px;
+}
+
 a {
+	font-weight: bold;
 	margin-right: 1rem;
-	color: white;
+	color: #475841;
 	text-decoration: none;
 }
 
 a:visited {
-	color: white;
+	color: #fd6a1c;
 }

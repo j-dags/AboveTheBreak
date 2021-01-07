@@ -16,13 +16,16 @@ h3 {
 .histogram-title {
 	display: inline-flex;
 	background-color: #ebebeb;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.25rem 2rem;
 }
 
 .histogram {
 	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
-	margin: 2rem 0rem;
+	margin: 0rem 0rem 3rem 0rem;
 
 	max-width: 100%;
 	position: relative;
@@ -35,4 +38,5 @@ h3 {
 
 select {
 	height: 25px;
+	margin-left: 2rem;
 }

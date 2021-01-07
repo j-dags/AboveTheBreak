@@ -1,12 +1,14 @@
 import './Table.css';
 import React, { useEffect, useState } from 'react';
 import PlayerCharts from './PlayerCharts';
+import { headerData } from './rowData';
+import { rgb } from 'd3';
 // import Slide from './Slide';
 // import _ from 'lodash';
 
 // import NBA from 'nba';
 
-const Table = ({ data, loaded }) => {
+const Table = ({ data }) => {
 	const [charts, setCharts] = useState(null);
 	let [active, setActive] = useState(false);
 	let [order, setOrder] = useState([]);
@@ -49,63 +51,46 @@ const Table = ({ data, loaded }) => {
 		setRev(newRev);
 	};
 
+	const setBgColor = (val) => {
+		if (val < 150) {
+			return { background: rgb(0, 255, 0, 0.5 - val / 300) };
+		} else {
+			return { background: rgb(255, 0, 0, val / 500 - 0.3) };
+		}
+	};
+
 	useEffect(() => {
 		if (data.length > 1) {
 			setOrder([...data]);
 		}
 	}, [data]);
 
-	console.log(`filter: ${filter}`);
-
-	return !loaded ? (
-		<div>Loading...</div>
-	) : (
+	return (
 		<div id="table-body">
-			<h1>League Stats</h1>
+			<div className="h1-container">
+				<h1>Player Rankings.</h1>
+			</div>
 			<table>
 				<tbody>
 					<tr className="table-header" onClick={handleFilter}>
-						<th className="row-rank" name="nbaFantasyPtsRank">
-							#
-						</th>
-						<th className="row-header-name" name="playerName">
-							NAME
-						</th>
-						<th className="row-team" name="teamId">
-							TEAM
-						</th>
-						<th className="row-stat" name="gp">
-							GP
-						</th>
-						<th className="row-stat" name="fg3mRank">
-							3PM
-						</th>
-						<th className="row-stat" name="ptsRank">
-							PTS
-						</th>
-						<th className="row-stat" name="rebRank">
-							REB
-						</th>
-						<th className="row-stat" name="astRank">
-							AST
-						</th>
-						<th className="row-stat" name="stlRank">
-							STL
-						</th>
-						<th className="row-stat" name="fgPctRank">
-							FG%
-						</th>
-						<th className="row-stat" name="ftPctRank">
-							FT%
-						</th>
-						<th className="row-stat" name="tovRank">
-							TOV
-						</th>
+						{headerData.map((stat) => (
+							<th
+								key={stat.text}
+								className={
+									filter === stat.name
+										? stat.className + '-active'
+										: stat.className
+								}
+								name={stat.name}
+							>
+								{stat.text}
+							</th>
+						))}
 					</tr>
 					{order.map((player) => {
 						i++;
 						return (
-							<React.Fragment key={player.playerName}>
+							<React.Fragment key={i}>
 								<tr onClick={handleClick} className="table-row">
 									<td
 										className="row-rank"
@@ -163,6 +148,12 @@ const Table = ({ data, loaded }) => {
 										{player.stl.toFixed(1)}
 									</td>
 									<td
+										bgcolor={filter === 'blkRank' ? color : null}
+										className="row-stat"
+									>
+										{player.blk.toFixed(1)}
+									</td>
+									<td
 										bgcolor={filter === 'fgPctRank' ? color : null}
 										className="row-stat"
 									>
@@ -180,10 +171,37 @@ const Table = ({ data, loaded }) => {
 									>
 										{player.tov.toFixed()}
 									</td>
+									<td style={setBgColor(player.fg3mRank)} className="row-stat">
+										{player.fg3mRank}
+									</td>
+									<td style={setBgColor(player.ptsRank)} className="row-stat">
+										{player.ptsRank}
+									</td>
+									<td style={setBgColor(player.rebRank)} className="row-stat">
+										{player.rebRank}
+									</td>
+									<td style={setBgColor(player.astRank)} className="row-stat">
+										{player.astRank}
+									</td>
+									<td style={setBgColor(player.stlRank)} className="row-stat">
+										{player.stlRank}
+									</td>
+									<td style={setBgColor(player.blkRank)} className="row-stat">
+										{player.blkRank}
+									</td>
+									<td style={setBgColor(player.fgPctRank)} className="row-stat">
+										{player.fgPctRank}
+									</td>
+									<td style={setBgColor(player.ftPctRank)} className="row-stat">
+										{player.ftPctRank}
+									</td>
+									<td style={setBgColor(player.tovRank)} className="row-stat">
+										{player.tovRank}
+									</td>
 								</tr>
 								{charts === player.playerName && active ? (
 									<tr key={player.pts} className="player-charts-row">
-										<td colSpan="12">
+										<td colSpan="22">
 											<div className="active">
 												<PlayerCharts data={data} player={player} />
 											</div>
