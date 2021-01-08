@@ -5,6 +5,7 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Table from './Table';
 import Navbar from './Navbar';
 import LeagueCharts from './LeagueCharts';
+import Load from './Load';
 
 function App() {
 	const [data, setData] = useState({ players: [] });
@@ -32,6 +33,7 @@ function App() {
 					path="/stat-charts"
 					render={() => <LeagueCharts loaded={loaded} />}
 				/>
+				<Route path="/load" render={() => <Load />} />
 			</Switch>
 		</Router>
 	);
