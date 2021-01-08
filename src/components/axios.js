@@ -1,28 +1,41 @@
 import axios from 'axios';
-import { key } from '../api-key';
+// import { key } from '../api-key';
 
-export const getStats = (season, page) =>
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+const targetUrl = 'https://stats.nba.com/stats/leagueLeaders?';
+
+export const getStats = () =>
 	axios({
 		method: 'GET',
-		url: 'https://free-nba.p.rapidapi.com/stats',
-		headers: {
-			'x-rapidapi-key': key,
-			'x-rapidapi-host': 'free-nba.p.rapidapi.com',
-			useQueryString: true,
-		},
+		// url: 'https://free-nba.p.rapidapi.com/stats',
+		url: proxyUrl + targetUrl,
+		// headers: {
+		// 	'x-rapidapi-key': key,
+		// 	'x-rapidapi-host': 'free-nba.p.rapidapi.com',
+		// 	useQueryString: true,
+		// },
 		params: {
-			page: page,
-			'seasons[]': season,
-			per_page: '100',
+			LeagueID: '00',
+			PerMode: 'PerGame',
+			Scope: 'S',
+			Season: '2020-21',
+			SeasonType: 'Regular Season',
+			StatCategory: 'PTS',
 		},
 		transformResponse: [
 			function (res) {
-				let { data } = JSON.parse(res);
-				// console.log('axios data > ', data);
-				return data;
-				// 	return games
-				// 		.filter((game) => !!game.endTimeUTC)
-				// 		.map((game) => game.gameId);
+				const headers = JSON.parse(res).resultSet.headers;
+				const data = JSON.parse(res).resultSet.rowSet;
+
+				const transformedData = data.map((player) => {
+					return player.reduce((obj, el, idx) => {
+						return {
+							...obj,
+							[headers[idx]]: el,
+						};
+					}, {});
+				});
+				return transformedData;
 			},
 		],
 	});
