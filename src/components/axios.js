@@ -7,13 +7,8 @@ const targetUrl = 'https://stats.nba.com/stats/leagueLeaders?';
 export const getStats = () =>
 	axios({
 		method: 'GET',
-		// url: 'https://free-nba.p.rapidapi.com/stats',
 		url: proxyUrl + targetUrl,
-		// headers: {
-		// 	'x-rapidapi-key': key,
-		// 	'x-rapidapi-host': 'free-nba.p.rapidapi.com',
-		// 	useQueryString: true,
-		// },
+
 		params: {
 			LeagueID: '00',
 			PerMode: 'PerGame',

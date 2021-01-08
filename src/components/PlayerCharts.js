@@ -5,27 +5,22 @@ import Scatterplot2 from './Scatterplot2';
 
 const PlayerCharts = ({ data, player }) => {
 	const stats = [
-		'fG3M',
-		'pts',
-		'reb',
-		'ast',
-		'stl',
-		'blk',
-		'fgPct',
-		'ftPct',
-		'tov',
+		'FG3M',
+		'PTS',
+		'REB',
+		'AST',
+		'STL',
+		'BLK',
+		'FG_PCT',
+		'FT_PCT',
+		'TOV',
 	];
 
 	return (
 		// <div className="container">
 		<React.Fragment>
 			{stats.map((stat) => (
-				<Scatterplot2
-					key={stat}
-					data={data}
-					stat={stat}
-					name={player.playerName}
-				/>
+				<Scatterplot2 key={stat} data={data} stat={stat} name={player.PLAYER} />
 			))}
 		</React.Fragment>
 		// </div>
