@@ -1,11 +1,12 @@
 import axios from 'axios';
+import { key } from '../api-key';
 
 export const getStats = (season, page) =>
 	axios({
 		method: 'GET',
 		url: 'https://free-nba.p.rapidapi.com/stats',
 		headers: {
-			'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
+			'x-rapidapi-key': key,
 			'x-rapidapi-host': 'free-nba.p.rapidapi.com',
 			useQueryString: true,
 		},
