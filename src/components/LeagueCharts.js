@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import tableData from '../data/data';
+
+// import axios from 'axios';
 
 // import BarTable from './BarTable';
 import Histogram from './Histogram';
@@ -10,14 +12,20 @@ const LeagueCharts = () => {
 	// const [loaded, setLoaded] = useState(false);
 	const [year, setYear] = useState('2020-21');
 
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		const { data } = await axios.get(`/stats/${year}`);
+	// 		setData(data);
+	// 		// setLoaded(true);
+	// 	};
+	// 	fetchData();
+	// }, [year]);
+
 	useEffect(() => {
-		const fetchData = async () => {
-			const { data } = await axios.get(`/stats/${year}`);
-			setData(data);
-			// setLoaded(true);
-		};
-		fetchData();
-	}, [year]);
+		// USE FOR PLAYERSTATS (PREFERRED TABLE) SCRAPED AND STORED IN OUTPUT.JS
+		setData(tableData);
+		// setLoaded(true);
+	}, []);
 
 	return (
 		<div id="histogram-body">
@@ -51,7 +59,7 @@ const LeagueCharts = () => {
 				</select>
 			</div>
 			<div id="histogram-container">
-				<Histogram data={data} stat={'fG3M'} />
+				<Histogram data={data} stat={'fg3M'} />
 				<Histogram data={data} stat={'pts'} />
 				<Histogram data={data} stat={'reb'} />
 				<Histogram data={data} stat={'ast'} />

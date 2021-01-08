@@ -2,17 +2,19 @@ import './Table.css';
 import React, { useEffect, useState } from 'react';
 import PlayerCharts from './PlayerCharts';
 import { headerData } from './rowData';
-// import { rgb } from 'd3';
-import { getStats } from './axios';
+import { rgb } from 'd3';
+// import { getStats } from './axios';
+import tableData from '../data/data';
 
-const Table = ({ data }) => {
+const Table = () => {
 	const [charts, setCharts] = useState(null);
 	let [active, setActive] = useState(false);
 	let [order, setOrder] = useState([]);
 	let [filter, setFilter] = useState('nbaFantasyPtsRank');
 	let [reverse, setReverse] = useState(false);
+	let [loaded, setLoaded] = useState(false);
 	let i = 0;
-	let color = '#fafafa';
+	let color = '#f6f6f6';
 
 	const handleClick = (evt) => {
 		console.log('evt > ', charts);
@@ -36,39 +38,52 @@ const Table = ({ data }) => {
 
 	// Return order array sorted depending on column clicked
 	const filterFnc = (filter, reverse) => {
+		console.log(filter, !!filter.match(/Rank/));
 		// Sort strings
-		if (filter === 'PLAYER' || filter === 'TEAM') {
+		if (filter === 'playerName' || filter === 'teamAbbreviation') {
 			return [...order].sort(
 				(a, b) => a[filter].localeCompare(b[filter]) * (reverse ? -1 : 1)
 			);
 		}
 		// Sort numbers
-		else {
+		else if (!!filter.match(/Rank/)) {
+			return [...order].sort(
+				(a, b) => (reverse ? 1 : -1) * (b[filter] - a[filter])
+			);
+		} else {
 			return [...order].sort(
 				(a, b) => (reverse ? -1 : 1) * (b[filter] - a[filter])
 			);
 		}
 	};
 
-	// const setBgColor = (val) => {
-	// 	if (val < 150) {
-	// 		return { background: rgb(0, 255, 0, 0.5 - val / 300) };
-	// 	} else {
-	// 		return { background: rgb(255, 0, 0, val / 500 - 0.3) };
-	// 	}
-	// };
+	const setBgColor = (val) => {
+		if (val < 150) {
+			return { background: rgb(0, 255, 0, 0.5 - val / 300) };
+		} else {
+			return { background: rgb(255, 0, 0, val / 500 - 0.3) };
+		}
+	};
 
 	useEffect(() => {
-		async function makeOrder() {
-			const { data } = await getStats();
-			setOrder(data);
-		}
-		makeOrder();
+		// USE FOR LEAGELEADERS API REQUEST
+		// async function makeOrder() {
+		// 	const { data } = await getStats();
+		// 	setOrder(data);
+		// }
+		// makeOrder();
+
+		// USE FOR PLAYERSTATS (PREFERRED TABLE) SCRAPED AND STORED IN OUTPUT.JS
+		setOrder(tableData);
+		setLoaded(true);
 	}, []);
 
-	console.log('order > ', order);
-	console.log('CHARTS > ', charts);
-	return (
+	// console.log('order > ', tableData);
+
+	return !loaded ? (
+		<div>Loading</div>
+	) : (
+		// <div>HOL UP</div>
 		<div id="table-body">
 			<div className="h1-container">
 				<h1>Player Rankings.</h1>
@@ -97,94 +112,112 @@ const Table = ({ data }) => {
 								<tr onClick={handleClick} className="table-row">
 									<td
 										className="row-rank"
-										bgcolor={filter === 'RANK' ? color : null}
+										bgcolor={filter === 'nbaFantasyPtsRank' ? color : null}
 									>
-										{i}
+										{player.nbaFantasyPtsRank}
 									</td>
 									<td
-										bgcolor={filter === 'PLAYER' ? color : null}
+										bgcolor={filter === 'playerName' ? color : null}
 										className="row-name"
-										data-value={player.PLAYER}
+										data-value={player.playerName}
 									>
-										{player.PLAYER}
+										{player.playerName}
 									</td>
 									<td
-										bgcolor={filter === 'TEAM' ? color : null}
+										bgcolor={filter === 'teamAbbreviation' ? color : null}
 										className="row-team"
 									>
-										{player.TEAM}
+										{player.teamAbbreviation}
 									</td>
 									<td
-										bgcolor={filter === 'GP' ? color : null}
+										bgcolor={filter === 'gp' ? color : null}
 										className="row-team"
 									>
-										{player.GP}
+										{player.gp}
 									</td>
 									<td
-										bgcolor={filter === 'FG3M' ? color : null}
+										bgcolor={filter === 'fg3M' ? color : null}
 										className="row-stat"
 									>
-										{player.FG3M.toFixed(1)}
+										{player.fg3M.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'PTS' ? color : null}
+										bgcolor={filter === 'pts' ? color : null}
 										className="row-stat"
 									>
-										{player.PTS.toFixed(1)}
+										{player.pts.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'REB' ? color : null}
+										bgcolor={filter === 'reb' ? color : null}
 										className="row-stat"
 									>
-										{(player.DREB + player.OREB).toFixed(1)}
+										{player.reb.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'AST' ? color : null}
+										bgcolor={filter === 'ast' ? color : null}
 										className="row-stat"
 									>
-										{player.AST.toFixed(1)}
+										{player.ast.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'STL' ? color : null}
+										bgcolor={filter === 'stl' ? color : null}
 										className="row-stat"
 									>
-										{player.STL.toFixed(1)}
+										{player.stl.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'BLK' ? color : null}
+										bgcolor={filter === 'blk' ? color : null}
 										className="row-stat"
 									>
-										{player.BLK.toFixed(1)}
+										{player.blk.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'FG_PCT' ? color : null}
+										bgcolor={filter === 'fgPct' ? color : null}
 										className="row-stat"
 									>
-										{player.FG_PCT.toFixed(2)}
+										{player.fgPct.toFixed(2)}
 									</td>
 									<td
-										bgcolor={filter === 'FT_PCT' ? color : null}
+										bgcolor={filter === 'ftPct' ? color : null}
 										className="row-stat"
 									>
-										{player.FT_PCT.toFixed(2)}
+										{player.ftPct.toFixed(2)}
 									</td>
 									<td
-										bgcolor={filter === 'TOV' ? color : null}
+										bgcolor={filter === 'tov' ? color : null}
 										className="row-stat"
 									>
-										{player.TOV.toFixed()}
+										{player.tov.toFixed()}
 									</td>
-									{/* <td className="row-stat">{player.FG3M}</td>
-									<td className="row-stat">{player.PTS}</td>
-									<td className="row-stat">{player.REB}</td>
-									<td className="row-stat">{player.AST}</td>
-									<td className="row-stat">{player.STL}</td>
-									<td className="row-stat">{player.BLK}</td>
-									<td className="row-stat">{player.FG_PCT}</td>
-									<td className="row-stat">{player.FT_PCT}</td>
-									<td className="row-stat">{player.TOV}</td> */}
+									<td className="row-stat" style={setBgColor(player.fg3MRank)}>
+										{player.fg3MRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.ptsRank)}>
+										{player.ptsRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.rebRank)}>
+										{player.rebRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.astRank)}>
+										{player.astRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.stlRank)}>
+										{player.stlRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.blkRank)}>
+										{player.blkRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.fgPctRank)}>
+										{player.fgPctRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.ftPctRank)}>
+										{player.ftPctRank}
+									</td>
+									<td className="row-stat" style={setBgColor(player.tovRank)}>
+										{player.tovRank}
+									</td>
 								</tr>
-								{charts === player.PLAYER && active ? (
+								{charts === player.playerName && active ? (
 									<tr key={player.pts} className="player-charts-row">
 										<td colSpan="22">
 											<div className="active">

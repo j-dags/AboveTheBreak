@@ -18,9 +18,9 @@ const ScatterPlot2 = ({ data, stat, name }) => {
 	console.log('scatterData > ', name);
 	data = data.map((player) => {
 		let color = '#AAC7DA';
-		if (player.PLAYER === name)
-			playerDot = [player.GP, player[stat], '#e63946'];
-		return [player.GP, player[stat], color];
+		if (player.playerName === name)
+			playerDot = [player.gp, player[stat], '#e63946'];
+		return [player.gp, player[stat], color];
 	});
 
 	data.push(playerDot);

@@ -33,7 +33,7 @@ function App() {
 					path="/stat-charts"
 					render={() => <LeagueCharts loaded={loaded} />}
 				/>
-				<Route path="/load" render={() => <Load />} />
+				{/* <Route path="/load" render={() => <Load />} /> */}
 			</Switch>
 		</Router>
 	);

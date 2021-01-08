@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
-
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import './Histogram.css';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-
 const defaultBars = {
-	fG3M: 4,
+	fg3M: 4,
 	pts: 1,
 	reb: 4,
 	ast: 4,
