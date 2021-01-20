@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { getStats } from './axios';
+// import { getStats } from './axios';
+import axios from 'axios';
 
 const Load = () => {
 	const [gameStats, setGameStats] = useState([]);
 
 	const fetchNBA = async () => {
-		const { data } = await getStats();
+		// const { data } = await getStats();
+		const { data } = await axios.get('/stats/2020-21');
+		console.log('data > ', data);
 		setGameStats(data);
 	};
 
