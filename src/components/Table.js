@@ -5,7 +5,8 @@ import PlayerCharts from './PlayerCharts';
 import { headerData } from './rowData';
 import axios from 'axios';
 import { rgb } from 'd3';
-import getStats from './axios';
+// import getStats from './axios';
+import getStats from './nodeFetch';
 
 const Table = () => {
 	const [charts, setCharts] = useState(null);
