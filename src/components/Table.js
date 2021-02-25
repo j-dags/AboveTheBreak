@@ -227,16 +227,14 @@ const Table = () => {
 										{player.TOV_RANK}
 									</td>
 								</tr>
-								{charts === player.PLAYER_NAME && active ? (
+								{charts === player.PLAYER_NAME && active && (
 									<tr key={player.PTS} className="player-charts-row">
 										<td colSpan="22">
 											<div className="active">
-												<PlayerCharts data={order} player={player} />
+												{/* <PlayerCharts data={order} player={player} /> */}
 											</div>
 										</td>
 									</tr>
-								) : (
-									<></>
 								)}
 							</React.Fragment>
 						);
