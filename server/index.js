@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const path = require('path');
+// const path = require('/path');
 
 const app = express();
 
@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Api routes
 app.use('/stats', require('./api'));
+// app.use('/rp', require('./api/rp'));
 
 // Direct other requests to index.html
 // app.get('*', function (req, res) {

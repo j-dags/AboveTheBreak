@@ -5,15 +5,15 @@ import Scatterplot2 from './Scatterplot2';
 
 const PlayerCharts = ({ data, player }) => {
 	const stats = [
-		'fg3M',
-		'pts',
-		'reb',
-		'ast',
-		'stl',
-		'blk',
-		'fgPct',
-		'ftPct',
-		'tov',
+		'FG3M',
+		'PTS',
+		'REB',
+		'AST',
+		'STL',
+		'BLK',
+		'FG_PCT',
+		'FT_PCT',
+		'TOV',
 	];
 
 	return (
@@ -24,7 +24,7 @@ const PlayerCharts = ({ data, player }) => {
 					key={stat}
 					data={data}
 					stat={stat}
-					name={player.playerName}
+					name={player.PLAYER_NAME}
 				/>
 			))}
 		</React.Fragment>

@@ -1,13 +1,7 @@
 const NBA = require('nba');
 const router = require('express').Router();
 
-// router.get('/', async (req, res, next) => {
-// 	try {
-// 		res.json('Home Page');
-// 	} catch (err) {
-// 		next(err);
-// 	}
-// });
+router.use('/rp', require('./rp.js'));
 
 // Get player stats for a given year
 router.get('/:year', async (req, res, next) => {

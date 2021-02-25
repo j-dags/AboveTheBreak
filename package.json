@@ -15,6 +15,7 @@
     "lodash": "^4.17.20",
     "morgan": "^1.10.0",
     "nba": "^4.13.0",
+    "nodemon": "^2.0.7",
     "plottable": "^3.9.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -35,7 +36,6 @@
     "eject": "react-scripts eject",
     "server": "nodemon server",
     "start-server": "nodemon server && react-scripts start",
-
     "preinstall": "npx npm-force-resolutions"
   },
   "resolutions": {

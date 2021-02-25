@@ -2,9 +2,8 @@ import './Table.css';
 import React, { useEffect, useState } from 'react';
 import PlayerCharts from './PlayerCharts';
 import { headerData } from './rowData';
+import axios from 'axios';
 import { rgb } from 'd3';
-// import { getStats } from './axios';
-import tableData from '../data/data';
 
 const Table = () => {
 	const [charts, setCharts] = useState(null);
@@ -38,15 +37,15 @@ const Table = () => {
 
 	// Return order array sorted depending on column clicked
 	const filterFnc = (filter, reverse) => {
-		console.log(filter, !!filter.match(/Rank/));
+		console.log(filter, !!/RANK/.test(filter));
 		// Sort strings
-		if (filter === 'playerName' || filter === 'teamAbbreviation') {
+		if (filter === 'PLAYER_NAME' || filter === 'TEAM_ABBREVIATION') {
 			return [...order].sort(
 				(a, b) => a[filter].localeCompare(b[filter]) * (reverse ? -1 : 1)
 			);
 		}
 		// Sort numbers
-		else if (!!filter.match(/Rank/)) {
+		else if (!!/RANK/.test(filter) && filter !== 'TOV_RANK') {
 			return [...order].sort(
 				(a, b) => (reverse ? 1 : -1) * (b[filter] - a[filter])
 			);
@@ -58,27 +57,24 @@ const Table = () => {
 	};
 
 	const setBgColor = (val) => {
-		if (val < 150) {
-			return { background: rgb(0, 255, 0, 0.5 - val / 300) };
+		if (val < 75) {
+			return { background: rgb(0, 255, 0, Math.max(0.1, 0.6 - val / 75)) };
 		} else {
-			return { background: rgb(255, 0, 0, val / 500 - 0.3) };
+			return { background: rgb(255, 0, 0, Math.min(0.25, (val - 75) / 500)) };
 		}
 	};
 
 	useEffect(() => {
-		// USE FOR LEAGELEADERS API REQUEST
-		// async function makeOrder() {
-		// 	const { data } = await getStats();
-		// 	setOrder(data);
-		// }
-		// makeOrder();
-
-		// USE FOR PLAYERSTATS (PREFERRED TABLE) SCRAPED AND STORED IN OUTPUT.JS
-		setOrder(tableData);
+		const fetchData = async () => {
+			const { data } = await axios.get('/stats/rp');
+			const order = data
+				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
+				.slice(0, 128);
+			setOrder(order);
+		};
+		fetchData();
 		setLoaded(true);
 	}, []);
-
-	// console.log('order > ', tableData);
 
 	return !loaded ? (
 		<div>Loading</div>
@@ -112,113 +108,122 @@ const Table = () => {
 								<tr onClick={handleClick} className="table-row">
 									<td
 										className="row-rank"
-										bgcolor={filter === 'nbaFantasyPtsRank' ? color : null}
+										bgcolor={filter === 'NBA_FANTASY_PTS_RANK' ? color : null}
 									>
-										{player.nbaFantasyPtsRank}
+										{player.NBA_FANTASY_PTS_RANK}
 									</td>
 									<td
-										bgcolor={filter === 'playerName' ? color : null}
+										bgcolor={filter === 'PLAYER_NAME' ? color : null}
 										className="row-name"
-										data-value={player.playerName}
+										data-value={player.PLAYER_NAME}
 									>
-										{player.playerName}
+										{player.PLAYER_NAME}
 									</td>
 									<td
-										bgcolor={filter === 'teamAbbreviation' ? color : null}
+										bgcolor={filter === 'TEAM_ABBREVIATION' ? color : null}
 										className="row-team"
 									>
-										{player.teamAbbreviation}
+										{player.TEAM_ABBREVIATION}
 									</td>
 									<td
-										bgcolor={filter === 'gp' ? color : null}
+										bgcolor={filter === 'GP' ? color : null}
 										className="row-team"
 									>
-										{player.gp}
+										{player.GP}
 									</td>
 									<td
-										bgcolor={filter === 'fg3M' ? color : null}
+										bgcolor={filter === 'FG3M' ? color : null}
 										className="row-stat"
 									>
-										{player.fg3M.toFixed(1)}
+										{player.FG3M.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'pts' ? color : null}
+										bgcolor={filter === 'PTS' ? color : null}
 										className="row-stat"
 									>
-										{player.pts.toFixed(1)}
+										{player.PTS.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'reb' ? color : null}
+										bgcolor={filter === 'REB' ? color : null}
 										className="row-stat"
 									>
-										{player.reb.toFixed(1)}
+										{player.REB.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'ast' ? color : null}
+										bgcolor={filter === 'AST' ? color : null}
 										className="row-stat"
 									>
-										{player.ast.toFixed(1)}
+										{player.AST.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'stl' ? color : null}
+										bgcolor={filter === 'STL' ? color : null}
 										className="row-stat"
 									>
-										{player.stl.toFixed(1)}
+										{player.STL.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'blk' ? color : null}
+										bgcolor={filter === 'BLK' ? color : null}
 										className="row-stat"
 									>
-										{player.blk.toFixed(1)}
+										{player.BLK.toFixed(1)}
 									</td>
 									<td
-										bgcolor={filter === 'fgPct' ? color : null}
+										bgcolor={filter === 'FG_PCT' ? color : null}
 										className="row-stat"
 									>
-										{player.fgPct.toFixed(2)}
+										{player.FG_PCT.toFixed(2)}
 									</td>
 									<td
-										bgcolor={filter === 'ftPct' ? color : null}
+										bgcolor={filter === 'FT_PCT' ? color : null}
 										className="row-stat"
 									>
-										{player.ftPct.toFixed(2)}
+										{player.FT_PCT.toFixed(2)}
 									</td>
 									<td
-										bgcolor={filter === 'tov' ? color : null}
+										bgcolor={filter === 'TOV' ? color : null}
 										className="row-stat"
 									>
-										{player.tov.toFixed()}
+										{player.TOV.toFixed()}
 									</td>
-									<td className="row-stat" style={setBgColor(player.fg3MRank)}>
-										{player.fg3MRank}
+									<td className="row-stat" style={setBgColor(player.FG3M_RANK)}>
+										{player.FG3M_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.ptsRank)}>
-										{player.ptsRank}
+									<td className="row-stat" style={setBgColor(player.PTS_RANK)}>
+										{player.PTS_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.rebRank)}>
-										{player.rebRank}
+									<td className="row-stat" style={setBgColor(player.REB_RANK)}>
+										{player.REB_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.astRank)}>
-										{player.astRank}
+									<td className="row-stat" style={setBgColor(player.AST_RANK)}>
+										{player.AST_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.stlRank)}>
-										{player.stlRank}
+									<td className="row-stat" style={setBgColor(player.STL_RANK)}>
+										{player.STL_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.blkRank)}>
-										{player.blkRank}
+									<td className="row-stat" style={setBgColor(player.BLK_RANK)}>
+										{player.BLK_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.fgPctRank)}>
-										{player.fgPctRank}
+									<td
+										className="row-stat"
+										style={setBgColor(player.FG_PCT_RANK)}
+									>
+										{player.FG_PCT_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.ftPctRank)}>
-										{player.ftPctRank}
+									<td
+										className="row-stat"
+										style={setBgColor(player.FT_PCT_RANK)}
+									>
+										{player.FT_PCT_RANK}
 									</td>
-									<td className="row-stat" style={setBgColor(player.tovRank)}>
-										{player.tovRank}
+									<td
+										className="row-stat"
+										style={setBgColor(250 - player.TOV_RANK)}
+									>
+										{player.TOV_RANK}
 									</td>
 								</tr>
-								{charts === player.playerName && active ? (
-									<tr key={player.pts} className="player-charts-row">
+								{charts === player.PLAYER_NAME && active ? (
+									<tr key={player.PTS} className="player-charts-row">
 										<td colSpan="22">
 											<div className="active">
 												<PlayerCharts data={order} player={player} />
