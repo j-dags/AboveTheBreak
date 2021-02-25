@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PlayerCharts from './PlayerCharts';
 import { headerData } from './rowData';
 import { rgb } from 'd3';
-// import { getStats } from './axios';
+import { getStats } from './axios';
 import tableData from '../data/data';
 
 const Table = () => {
@@ -66,9 +66,10 @@ const Table = () => {
 	};
 
 	useEffect(() => {
-		// USE FOR LEAGELEADERS API REQUEST
+		// // USE FOR LEAGELEADERS API REQUEST
 		// async function makeOrder() {
 		// 	const { data } = await getStats();
+		// 	console.log('data > ', data);
 		// 	setOrder(data);
 		// }
 		// makeOrder();
@@ -78,7 +79,7 @@ const Table = () => {
 		setLoaded(true);
 	}, []);
 
-	// console.log('order > ', tableData);
+	console.log('order > ', order);
 
 	return !loaded ? (
 		<div>Loading</div>
