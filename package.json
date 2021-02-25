@@ -35,7 +35,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon server",
-    "start-server": "nodemon server && react-scripts start",
+    "start-server": "react-scripts start && npm run server ",
     "preinstall": "npx npm-force-resolutions"
   },
   "resolutions": {

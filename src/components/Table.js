@@ -1,9 +1,11 @@
+/* eslint-disable */
 import './Table.css';
 import React, { useEffect, useState } from 'react';
 import PlayerCharts from './PlayerCharts';
 import { headerData } from './rowData';
 import axios from 'axios';
 import { rgb } from 'd3';
+import getStats from './axios';
 
 const Table = () => {
 	const [charts, setCharts] = useState(null);
@@ -67,9 +69,11 @@ const Table = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const { data } = await axios.get('/stats/rp');
+			// const data = await getStats();
 			const order = data
 				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
 				.slice(0, 128);
+			console.log('data > ', data);
 			setOrder(order);
 		};
 		fetchData();
