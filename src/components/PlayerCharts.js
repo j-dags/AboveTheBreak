@@ -2,11 +2,18 @@
 
 import Scatterplot2 from './Scatterplot2';
 import React, { useState } from 'react';
-import { useSpring, animated, config } from 'react-spring';
+import { useSpring, animated as a, config } from 'react-spring';
 
 import './PlayerCharts.css';
 
-const PlayerCharts = ({ data, player, setActive }) => {
+const PlayerCharts = ({
+	data,
+	player,
+	showCharts,
+	setShowCharts,
+	setCharts,
+	setClose,
+}) => {
 	const stats = [
 		'FG3M',
 		'PTS',
@@ -34,29 +41,50 @@ const PlayerCharts = ({ data, player, setActive }) => {
 	// 	// </div>
 	// );
 
-	const [open, set] = useState(true);
+	// const [showCharts, set] = useState(true);
+
+	// Waits for animation to finish before changing state
 	const clearActive = () => {
-		if (!open) setActive(false);
+		if (!showCharts) {
+			setCharts(null);
+		}
 	};
 
 	const props = useSpring({
-		config: { mass: 1, tension: 210, friction: open ? 20 : 30, velocity: -5 },
+		config: {
+			mass: 1,
+			tension: 210,
+			friction: showCharts ? 20 : 30,
+			velocity: -5,
+		},
 		from: { width: '100%', height: '0px', background: 'lightgreen' },
 		to: {
 			width: '100%',
-			height: open ? '800px' : '0px',
+			height: showCharts ? '800px' : '0px',
 			background: 'lightblue',
 		},
 		onRest: () => clearActive(),
 	});
 
-	console.log('open > ', open);
 	return (
-		<animated.div
+		<a.div
 			className="script-box"
 			style={props}
-			onClick={() => set(!open)}
-		/>
+			onClick={() => setShowCharts(!showCharts)}
+		>
+			{/* <div className="container">
+				<React.Fragment>
+					{stats.map((stat) => (
+						<Scatterplot2
+							key={stat}
+							data={data}
+							stat={stat}
+							name={player.PLAYER_NAME}
+						/>
+					))}
+				</React.Fragment>
+			</div> */}
+		</a.div>
 	);
 };
 
