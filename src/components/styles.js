@@ -26,10 +26,9 @@ import styled from 'styled-components';
 const Container = styled(animated.div)`
 	position: relative;
 	display: grid;
-	grid-template-columns: repeat(4, minmax(100px, 1fr));
+	grid-template-columns: repeat(3, minmax(100px, 1fr));
 	grid-gap: 25px;
 	padding: 25px;
-	background: white;
 	border-radius: 5px;
 	cursor: pointer;
 	box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.05);

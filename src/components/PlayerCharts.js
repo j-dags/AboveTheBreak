@@ -1,8 +1,14 @@
 /* eslint-disable */
-
 import Scatterplot2 from './Scatterplot2';
-import React, { useState } from 'react';
-import { useSpring, animated as a, config } from 'react-spring';
+import React, { useState, useRef } from 'react';
+import {
+	useTransition,
+	useSpring,
+	useChain,
+	config,
+	animated as a,
+} from 'react-spring';
+import { Container, Item } from './styles';
 
 import './PlayerCharts.css';
 
@@ -26,23 +32,6 @@ const PlayerCharts = ({
 		'TOV',
 	];
 
-	// return (
-	// 	// <div className="container">
-	// 	<React.Fragment>
-	// 		{stats.map((stat) => (
-	// 			<Scatterplot2
-	// 				key={stat}
-	// 				data={data}
-	// 				stat={stat}
-	// 				name={player.PLAYER_NAME}
-	// 			/>
-	// 		))}
-	// 	</React.Fragment>
-	// 	// </div>
-	// );
-
-	// const [showCharts, set] = useState(true);
-
 	// Waits for animation to finish before changing state
 	const clearActive = () => {
 		if (!showCharts) {
@@ -50,21 +39,39 @@ const PlayerCharts = ({
 		}
 	};
 
+	const springRef = useRef();
 	const props = useSpring({
+		ref: springRef,
 		config: {
 			mass: 1,
 			tension: 210,
-			friction: showCharts ? 20 : 30,
-			velocity: -5,
+			friction: showCharts ? 20 : 20,
+			// velocity: -5,
 		},
-		from: { width: '100%', height: '0px', background: 'lightgreen' },
+		from: { height: '0px' },
 		to: {
-			width: '100%',
 			height: showCharts ? '800px' : '0px',
-			background: 'lightblue',
 		},
 		onRest: () => clearActive(),
 	});
+
+	// const transRef = useRef();
+	// const transitions = useTransition(showCharts ? stats : [], (stat) => stat, {
+	// 	ref: transRef,
+	// 	unique: true,
+	// 	trail: 400 / stats.length,
+	// 	from: { opacity: 0, transform: 'scale(0)' },
+	// 	enter: { opacity: 1, transform: 'scale(1)' },
+	// 	leave: { opacity: 0, transform: 'scale(0)' },
+	// });
+
+	// // This will orchestrate the two animations above, comment the last arg and it creates a sequence
+	// useChain(showCharts ? [springRef, transRef] : [transRef, springRef], [
+	// 	// 0,
+	// 	// showCharts ? 0.1 : 0.6,
+	// 	0,
+	// 	1,
+	// ]);
 
 	return (
 		<a.div
@@ -72,20 +79,36 @@ const PlayerCharts = ({
 			style={props}
 			onClick={() => setShowCharts(!showCharts)}
 		>
-			{/* <div className="container">
-				<React.Fragment>
-					{stats.map((stat) => (
-						<Scatterplot2
-							key={stat}
-							data={data}
-							stat={stat}
-							name={player.PLAYER_NAME}
-						/>
-					))}
-				</React.Fragment>
-			</div> */}
+			{/* {transitions.map(({ item, key, props }) => (
+				// <Scatterplot2
+				// 	key={key}
+				// 	data={data}
+				// 	stat={stat}
+				// 	name={player.PLAYER_NAME}
+				// />
+				<Item key={key} style={{ ...props, background: item.css }}>
+					ITEM
+				</Item>
+			))} */}
 		</a.div>
 	);
 };
 
 export default PlayerCharts;
+
+// return (
+// 	// <div className="container">
+// 	<React.Fragment>
+// 		{stats.map((stat) => (
+// 			<Scatterplot2
+// 				key={stat}
+// 				data={data}
+// 				stat={stat}
+// 				name={player.PLAYER_NAME}
+// 			/>
+// 		))}
+// 	</React.Fragment>
+// 	// </div>
+// );
+
+// const [showCharts, set] = useState(true);
