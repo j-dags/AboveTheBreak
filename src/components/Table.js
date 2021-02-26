@@ -19,7 +19,6 @@ const Table = () => {
 	let color = '#f6f6f6';
 
 	const handleClick = (evt) => {
-		console.log('evt > ', charts);
 		setCharts(evt.target.dataset.value);
 		if (!active) setActive(true);
 		if (evt.target.dataset.value === charts && active) setActive(false);
@@ -74,7 +73,6 @@ const Table = () => {
 			const order = data
 				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
 				.slice(0, 128);
-			console.log('data > ', data);
 			setOrder(order);
 		};
 		fetchData();
@@ -230,9 +228,13 @@ const Table = () => {
 								{charts === player.PLAYER_NAME && active && (
 									<tr key={player.PTS} className="player-charts-row">
 										<td colSpan="22">
-											<div className="active">
-												{/* <PlayerCharts data={order} player={player} /> */}
-											</div>
+											{/* <div className="active"> */}
+											<PlayerCharts
+												data={order}
+												player={player}
+												setActive={setActive}
+											/>
+											{/* </div> */}
 										</td>
 									</tr>
 								)}

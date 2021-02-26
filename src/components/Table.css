@@ -1,7 +1,7 @@
 .player-charts-row {
 	background-color: #f6f6f6;
-	height: 800px;
-	animation: 0.25s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.1) grow;
+	/* height: 800px;
+	animation: 0.25s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.1) grow; */
 }
 
 .inactive {
