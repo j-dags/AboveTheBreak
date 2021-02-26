@@ -1,5 +1,7 @@
 .player-charts-row {
 	background-color: #f6f6f6;
+	/* height: 800px;
+	animation: 0.25s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.1) grow; */
 }
 
 .inactive {
@@ -19,7 +21,6 @@
 	transition: height 0.3s, padding 0.3s, opacity 1s;
 	display: flex;
 	flex-wrap: wrap;
-	width: 100%;
 	justify-content: space-around;
 }
 
@@ -35,13 +36,14 @@ h1 {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	margin-top: 3rem;
+	margin: 3rem;
 }
 
 .row-name {
 	text-align: left;
 	color: #0268d6;
 	padding-left: 1rem;
+	width: 200px;
 }
 
 .table-header .row-name {
@@ -56,14 +58,17 @@ h1 {
 
 .row-rank {
 	text-align: center;
+	width: 60px;
 }
 
 .row-stat {
 	text-align: center;
+	width: 40px;
 }
 
 .row-team {
 	text-align: center;
+	width: 50px;
 }
 
 .table-header th {
@@ -138,8 +143,20 @@ table {
 	border-collapse: collapse;
 	padding: 1rem;
 	border-radius: 5px;
-	width: 1300px;
+	/* width: 1300px; */
 	/* box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.15); */
 	box-shadow: 0 2px 4px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
-	margin: 0.1rem;
+}
+
+@keyframes grow {
+	from {
+		/* opacity: 0; */
+		height: 0px;
+		/* transform: scale(1, 0); */
+	}
+	to {
+		/* opacity: 1; */
+		height: 800px;
+		/* transform: scale(1, 1); */
+	}
 }

@@ -15,6 +15,7 @@
     "lodash": "^4.17.20",
     "morgan": "^1.10.0",
     "nba": "^4.13.0",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
     "plottable": "^3.9.0",
     "react": "^16.0.0",
@@ -22,12 +23,15 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-spring": "^8.0.27",
+    "react-springs": "^1.1.0",
     "recharts": "^1.8.5",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
-    "web-vitals": "^0.2.4"
+    "styled-components": "^5.2.1",
+    "web-vitals": "^0.2.4",
+    "whatwg-fetch": "^3.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,7 +39,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon server",
-    "start-server": "nodemon server && react-scripts start",
+    "start-server": "react-scripts start && npm run server ",
     "preinstall": "npx npm-force-resolutions"
   },
   "resolutions": {

@@ -1,25 +1,43 @@
+/* eslint-disable */
 import './Table.css';
 import React, { useEffect, useState } from 'react';
 import PlayerCharts from './PlayerCharts';
 import { headerData } from './rowData';
 import axios from 'axios';
 import { rgb } from 'd3';
+// import getStats from './axios';
+import getStats from './nodeFetch';
 
 const Table = () => {
-	const [charts, setCharts] = useState(null);
-	let [active, setActive] = useState(false);
-	let [order, setOrder] = useState([]);
+	let [charts, setCharts] = useState(null);
 	let [filter, setFilter] = useState('nbaFantasyPtsRank');
-	let [reverse, setReverse] = useState(false);
 	let [loaded, setLoaded] = useState(false);
+	let [order, setOrder] = useState([]);
+	let [readyToClose, setClose] = useState(false);
+	let [reverse, setReverse] = useState(false);
+	let [showCharts, setShowCharts] = useState(false);
 	let i = 0;
 	let color = '#f6f6f6';
 
+	useEffect(() => {
+		// Load player stats
+		if (order.length < 1) {
+			const fetchData = async () => {
+				const { data } = await axios.get('/stats/rp');
+				// const data = await getStats();
+				const order = data
+					.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
+					.slice(0, 128);
+				setOrder(order);
+			};
+			fetchData();
+			setLoaded(true);
+		}
+	}, []);
+
 	const handleClick = (evt) => {
-		console.log('evt > ', charts);
-		setCharts(evt.target.dataset.value);
-		if (!active) setActive(true);
-		if (evt.target.dataset.value === charts && active) setActive(false);
+		if (!charts) setCharts(evt.target.dataset.value);
+		setShowCharts(!showCharts);
 	};
 
 	// Set new player order sorted depending on column clicked
@@ -63,18 +81,6 @@ const Table = () => {
 			return { background: rgb(255, 0, 0, Math.min(0.25, (val - 75) / 500)) };
 		}
 	};
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const { data } = await axios.get('/stats/rp');
-			const order = data
-				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
-				.slice(0, 128);
-			setOrder(order);
-		};
-		fetchData();
-		setLoaded(true);
-	}, []);
 
 	return !loaded ? (
 		<div>Loading</div>
@@ -222,16 +228,21 @@ const Table = () => {
 										{player.TOV_RANK}
 									</td>
 								</tr>
-								{charts === player.PLAYER_NAME && active ? (
+								{charts === player.PLAYER_NAME && (
 									<tr key={player.PTS} className="player-charts-row">
 										<td colSpan="22">
-											<div className="active">
-												<PlayerCharts data={order} player={player} />
-											</div>
+											{/* <div className="active"> */}
+											<PlayerCharts
+												data={order}
+												player={player}
+												setCharts={setCharts}
+												setClose={setClose}
+												setShowCharts={setShowCharts}
+												showCharts={showCharts}
+											/>
+											{/* </div> */}
 										</td>
 									</tr>
-								) : (
-									<></>
 								)}
 							</React.Fragment>
 						);
