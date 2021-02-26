@@ -1,8 +1,14 @@
 /* eslint-disable */
-
 import Scatterplot2 from './Scatterplot2';
-import React, { useState } from 'react';
-import { useSpring, animated as a, config } from 'react-spring';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+	useTransition,
+	useSpring,
+	useChain,
+	config,
+	animated as a,
+} from 'react-spring';
+import { Container, Item } from './styles';
 
 import './PlayerCharts.css';
 
@@ -14,6 +20,7 @@ const PlayerCharts = ({
 	setCharts,
 	setClose,
 }) => {
+	const [heights, setHeight] = useState('2400px');
 	const stats = [
 		'FG3M',
 		'PTS',
@@ -26,66 +33,93 @@ const PlayerCharts = ({
 		'TOV',
 	];
 
-	// return (
-	// 	// <div className="container">
-	// 	<React.Fragment>
-	// 		{stats.map((stat) => (
-	// 			<Scatterplot2
-	// 				key={stat}
-	// 				data={data}
-	// 				stat={stat}
-	// 				name={player.PLAYER_NAME}
-	// 			/>
-	// 		))}
-	// 	</React.Fragment>
-	// 	// </div>
-	// );
+	useEffect(() => {
+		console.log('width > ', window.innerWidth);
 
-	// const [showCharts, set] = useState(true);
+		// Handler to call on window resize
+		function handleResize() {
+			if (window.innerWidth < 825) setHeight('2400px');
+			else if (window.innerWidth > 1175) setHeight('850px');
+			else setHeight('1400px');
+		}
 
-	// Waits for animation to finish before changing state
+		window.addEventListener('resize', handleResize);
+		handleResize();
+
+		// Remove event listener on cleanup
+		return () => window.removeEventListener('resize', handleResize);
+	}, [window]);
+
 	const clearActive = () => {
 		if (!showCharts) {
 			setCharts(null);
 		}
 	};
 
+	const springRef = useRef();
 	const props = useSpring({
-		config: {
-			mass: 1,
-			tension: 210,
-			friction: showCharts ? 20 : 30,
-			velocity: -5,
-		},
-		from: { width: '100%', height: '0px', background: 'lightgreen' },
+		ref: springRef,
+		config: config.smooth,
+		from: { height: '0px' },
 		to: {
-			width: '100%',
-			height: showCharts ? '800px' : '0px',
-			background: 'lightblue',
+			height: showCharts ? heights : '0px',
 		},
 		onRest: () => clearActive(),
 	});
 
+	const transRef = useRef();
+	const transitions = useTransition(showCharts ? stats : [], (stat) => stat, {
+		ref: transRef,
+		unique: true,
+		trail: 400 / stats.length,
+		from: { opacity: 0, transform: 'scale(0)' },
+		enter: { opacity: 1, transform: 'scale(1)' },
+		leave: { opacity: 0, transform: 'scale(0)' },
+	});
+
+	// This will orchestrate the two animations above, comment the last arg and it creates a sequence
+	useChain(showCharts ? [springRef, transRef] : [transRef, springRef], [
+		0,
+		showCharts ? 0.25 : 0.6,
+		// 0,
+		// 1,
+	]);
+
 	return (
-		<a.div
+		<Container
 			className="script-box"
 			style={props}
 			onClick={() => setShowCharts(!showCharts)}
 		>
-			{/* <div className="container">
-				<React.Fragment>
-					{stats.map((stat) => (
-						<Scatterplot2
-							key={stat}
-							data={data}
-							stat={stat}
-							name={player.PLAYER_NAME}
-						/>
-					))}
-				</React.Fragment>
-			</div> */}
-		</a.div>
+			{transitions.map(({ item, key, props }) => (
+				<Item key={key} style={{ ...props, background: item.css }}>
+					<Scatterplot2
+						key={key}
+						data={data}
+						stat={key}
+						name={player.PLAYER_NAME}
+					/>
+				</Item>
+			))}
+		</Container>
 	);
 };
 
 export default PlayerCharts;
+
+// return (
+// 	// <div className="container">
+// 	<React.Fragment>
+// 		{stats.map((stat) => (
+// 			<Scatterplot2
+// 				key={stat}
+// 				data={data}
+// 				stat={stat}
+// 				name={player.PLAYER_NAME}
+// 			/>
+// 		))}
+// 	</React.Fragment>
+// 	// </div>
+// );
+
+// const [showCharts, set] = useState(true);
