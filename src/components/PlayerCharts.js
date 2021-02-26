@@ -59,7 +59,7 @@ const PlayerCharts = ({
 	const springRef = useRef();
 	const props = useSpring({
 		ref: springRef,
-		config: config.smooth,
+		config: { mass: 1, tension: 170, friction: 26, velocity: 10 },
 		from: { height: '0px' },
 		to: {
 			height: showCharts ? heights : '0px',
