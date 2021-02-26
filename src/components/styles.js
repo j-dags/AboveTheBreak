@@ -29,7 +29,6 @@ const Container = styled(animated.div)`
 	align-content: center;
 	border-radius: 5px;
 	cursor: pointer;
-	box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.05);
 	will-change: height;
 	flex-wrap: wrap;
 	justify-content: space-around;
