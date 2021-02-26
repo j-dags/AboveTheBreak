@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Scatterplot2 from './Scatterplot2';
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
 	useTransition,
 	useSpring,
@@ -20,6 +20,7 @@ const PlayerCharts = ({
 	setCharts,
 	setClose,
 }) => {
+	const [heights, setHeight] = useState('2400px');
 	const stats = [
 		'FG3M',
 		'PTS',
@@ -32,7 +33,23 @@ const PlayerCharts = ({
 		'TOV',
 	];
 
-	// Waits for animation to finish before changing state
+	useEffect(() => {
+		console.log('width > ', window.innerWidth);
+
+		// Handler to call on window resize
+		function handleResize() {
+			if (window.innerWidth < 825) setHeight('2400px');
+			else if (window.innerWidth > 1175) setHeight('850px');
+			else setHeight('1400px');
+		}
+
+		window.addEventListener('resize', handleResize);
+		handleResize();
+
+		// Remove event listener on cleanup
+		return () => window.removeEventListener('resize', handleResize);
+	}, [window]);
+
 	const clearActive = () => {
 		if (!showCharts) {
 			setCharts(null);
@@ -42,55 +59,49 @@ const PlayerCharts = ({
 	const springRef = useRef();
 	const props = useSpring({
 		ref: springRef,
-		config: {
-			mass: 1,
-			tension: 210,
-			friction: showCharts ? 20 : 20,
-			// velocity: -5,
-		},
+		config: config.smooth,
 		from: { height: '0px' },
 		to: {
-			height: showCharts ? '800px' : '0px',
+			height: showCharts ? heights : '0px',
 		},
 		onRest: () => clearActive(),
 	});
 
-	// const transRef = useRef();
-	// const transitions = useTransition(showCharts ? stats : [], (stat) => stat, {
-	// 	ref: transRef,
-	// 	unique: true,
-	// 	trail: 400 / stats.length,
-	// 	from: { opacity: 0, transform: 'scale(0)' },
-	// 	enter: { opacity: 1, transform: 'scale(1)' },
-	// 	leave: { opacity: 0, transform: 'scale(0)' },
-	// });
+	const transRef = useRef();
+	const transitions = useTransition(showCharts ? stats : [], (stat) => stat, {
+		ref: transRef,
+		unique: true,
+		trail: 400 / stats.length,
+		from: { opacity: 0, transform: 'scale(0)' },
+		enter: { opacity: 1, transform: 'scale(1)' },
+		leave: { opacity: 0, transform: 'scale(0)' },
+	});
 
-	// // This will orchestrate the two animations above, comment the last arg and it creates a sequence
-	// useChain(showCharts ? [springRef, transRef] : [transRef, springRef], [
-	// 	// 0,
-	// 	// showCharts ? 0.1 : 0.6,
-	// 	0,
-	// 	1,
-	// ]);
+	// This will orchestrate the two animations above, comment the last arg and it creates a sequence
+	useChain(showCharts ? [springRef, transRef] : [transRef, springRef], [
+		0,
+		showCharts ? 0.25 : 0.6,
+		// 0,
+		// 1,
+	]);
 
 	return (
-		<a.div
+		<Container
 			className="script-box"
 			style={props}
 			onClick={() => setShowCharts(!showCharts)}
 		>
-			{/* {transitions.map(({ item, key, props }) => (
-				// <Scatterplot2
-				// 	key={key}
-				// 	data={data}
-				// 	stat={stat}
-				// 	name={player.PLAYER_NAME}
-				// />
+			{transitions.map(({ item, key, props }) => (
 				<Item key={key} style={{ ...props, background: item.css }}>
-					ITEM
+					<Scatterplot2
+						key={key}
+						data={data}
+						stat={key}
+						name={player.PLAYER_NAME}
+					/>
 				</Item>
-			))} */}
-		</a.div>
+			))}
+		</Container>
 	);
 };
 

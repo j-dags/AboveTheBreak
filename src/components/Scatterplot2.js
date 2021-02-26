@@ -15,7 +15,6 @@ const sortNumber = (a, b) => {
 
 const ScatterPlot2 = ({ data, stat, name }) => {
 	let playerDot = [];
-	console.log('scatterData > ', name);
 	data = data.map((player) => {
 		let color = '#E3ECF3';
 		if (player.PLAYER_NAME === name)
