@@ -1,9 +1,10 @@
 #histogram-container {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-around;
+	justify-content: center;
 	max-width: 1300px;
 	margin: 2rem;
+	gap: 3rem;
 }
 
 .histogram-header {
