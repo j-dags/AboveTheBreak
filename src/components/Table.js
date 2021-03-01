@@ -23,11 +23,13 @@ const Table = () => {
 		// Load player stats
 		if (order.length < 1) {
 			const fetchData = async () => {
-				const { data } = await axios.get('/stats/rp');
+				const { data } = await axios.get('/fetch');
+				// const { data } = await axios.get('/stats/2020-21');
 				// const data = await getStats();
 				const order = data
 					.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
 					.slice(0, 156);
+				console.log('data > ', data);
 				setOrder(order);
 			};
 			fetchData();

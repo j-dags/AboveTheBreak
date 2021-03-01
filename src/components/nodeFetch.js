@@ -13,13 +13,16 @@ const getStats = async () => {
 						'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Safari/537.36',
 					'x-nba-stats-origin': 'stats',
 					Referer: 'https://stats.nba.com/',
+					'Access-Control-Allow-Origin': 'https://nba-stats-a3df7.web.app/',
+					'Access-Control-Allow-Headers':
+						'Origin, X-Requested-With, Content-Type, Accept',
 				},
 				// ReferrerPolicy: 'strict-origin-when-cross-origin',
 				// mode: 'cors',
 			}
 		);
 		console.log('results > ', results);
-		return results;
+		return results.json();
 		// const data = await results.json();
 		// // console.log(data.resultSet.headers);
 		// const headers = data.resultSets[0].headers;

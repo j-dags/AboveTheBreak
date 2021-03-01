@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Api routes
 app.use('/stats', require('./api'));
-app.use('/rp', require('./api/rp'));
+app.use('/fetch', require('./api/fetch'));
 
 // Direct other requests to index.html
 // app.get('*', function (req, res) {

@@ -16,14 +16,24 @@ async function main() {
 		json: true,
 	});
 
-	console.log('Got results =', results);
-
-	// save the JSON to disk
+	const headers = results.resultSets[0].headers;
+	const data = results.resultSets[0].rowSet;
+	const transformedData = data.map((player) => {
+		return player.reduce((obj, el, idx) => {
+			return {
+				...obj,
+				[headers[idx]]: el,
+			};
+		}, {});
+	});
+	console.log('Got results =', transformedData);
+	// // save the JSON to disk
 	await fs.promises.writeFile(
-		'./data/output.json',
-		JSON.stringify(results, null, 2)
+		'./data/dataset.json',
+		JSON.stringify(transformedData, null, 2)
 	);
 
+	// console.log('results > ', results);
 	console.log('Done!');
 }
 // start the main script
