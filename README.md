@@ -4,7 +4,7 @@ npm install
 
 ### TO SCRAPE FROM STATS.NBA
 
-node src/scrape.js
+node src/scrape.js</br>
 Scraped data is saved into src/dataset.json
 
 ### TEST LOCALLY
