@@ -1,5 +1,5 @@
-import { animated } from 'react-spring';
-import styled from 'styled-components';
+import { animated } from 'react-spring'
+import styled from 'styled-components'
 
 // const Global = createGlobalStyle`
 //   * {
@@ -24,19 +24,20 @@ import styled from 'styled-components';
 // `;
 
 const Container = styled(animated.div)`
-	position: relative;
-	display: flex;
-	align-content: center;
-	border-radius: 5px;
-	cursor: pointer;
-	will-change: height;
-	flex-wrap: wrap;
-	justify-content: space-around;
-`;
+position: relative;
+cursor: pointer;
+will-change: height;
+display: grid;
+grid-template-columns: repeat(auto-fit, 325px);
+grid-gap: 3em;
+padding: 0em 2em;
+place-content: center
+}
+`
 
 const Item = styled(animated.div)`
 	border-radius: 5px;
 	will-change: transform, opacity;
-`;
+`
 
-export { Container, Item };
+export { Container, Item }

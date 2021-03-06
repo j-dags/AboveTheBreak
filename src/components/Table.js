@@ -1,88 +1,83 @@
 /* eslint-disable */
-import './Table.css';
-import React, { useEffect, useState } from 'react';
-import PlayerCharts from './PlayerCharts';
-import { headerData } from './rowData';
-import axios from 'axios';
-import { rgb } from 'd3';
+import './Table.css'
+import React, { useEffect, useState } from 'react'
+import PlayerCharts from './PlayerCharts'
+import { headerData } from './rowData'
+import axios from 'axios'
+import { rgb } from 'd3'
+import data from '../data/dataset'
 // import getStats from './axios';
-import getStats from './nodeFetch';
+import getStats from './nodeFetch'
 
 const Table = () => {
-	let [charts, setCharts] = useState(null);
-	let [filter, setFilter] = useState('nbaFantasyPtsRank');
-	let [loaded, setLoaded] = useState(false);
-	let [order, setOrder] = useState([]);
-	let [readyToClose, setClose] = useState(false);
-	let [reverse, setReverse] = useState(false);
-	let [showCharts, setShowCharts] = useState(false);
-	let i = 0;
-	let color = '#f6f6f6';
+	let [charts, setCharts] = useState(null)
+	let [filter, setFilter] = useState('nbaFantasyPtsRank')
+	let [loaded, setLoaded] = useState(false)
+	let [order, setOrder] = useState([])
+	let [readyToClose, setClose] = useState(false)
+	let [reverse, setReverse] = useState(false)
+	let [showCharts, setShowCharts] = useState(false)
+	let i = 0
+	let color = '#f6f6f6'
 
 	useEffect(() => {
 		// Load player stats
 		if (order.length < 1) {
-			const fetchData = async () => {
-				const { data } = await axios.get('/fetch');
-				// const { data } = await axios.get('/stats/2020-21');
-				// const data = await getStats();
-				const order = data
-					.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
-					.slice(0, 156);
-				console.log('data > ', data);
-				setOrder(order);
-			};
-			fetchData();
-			setLoaded(true);
+			const order = data
+				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
+				.slice(0, 156)
+			setOrder(order)
+
+			setLoaded(true)
 		}
-	}, []);
+	}, [])
 
 	const handleClick = (evt) => {
-		if (!charts) setCharts(evt.target.dataset.value);
-		setShowCharts(!showCharts);
-	};
+		if (!charts) setCharts(evt.target.dataset.value)
+		setShowCharts(!showCharts)
+	}
 
 	// Set new player order sorted depending on column clicked
 	const handleFilter = (evt) => {
-		const newFilter = evt.target.getAttribute('name');
-		let newReverse = false;
+		const newFilter = evt.target.getAttribute('name')
+		let newReverse = false
 		if (newFilter === filter) {
-			newReverse = !reverse;
+			newReverse = !reverse
 		}
 
-		setOrder(filterFnc(newFilter, newReverse));
-		setFilter(newFilter);
-		setReverse(newReverse);
-	};
+		setOrder(filterFnc(newFilter, newReverse))
+		setFilter(newFilter)
+		setReverse(newReverse)
+	}
 
 	// Return order array sorted depending on column clicked
 	const filterFnc = (filter, reverse) => {
-		console.log(filter, !!/RANK/.test(filter));
+		console.log(filter, !!/RANK/.test(filter))
 		// Sort strings
 		if (filter === 'PLAYER_NAME' || filter === 'TEAM_ABBREVIATION') {
 			return [...order].sort(
 				(a, b) => a[filter].localeCompare(b[filter]) * (reverse ? -1 : 1)
-			);
+			)
 		}
 		// Sort numbers
 		else if (!!/RANK/.test(filter) && filter !== 'TOV_RANK') {
 			return [...order].sort(
 				(a, b) => (reverse ? 1 : -1) * (b[filter] - a[filter])
-			);
+			)
 		} else {
 			return [...order].sort(
 				(a, b) => (reverse ? -1 : 1) * (b[filter] - a[filter])
-			);
+			)
 		}
-	};
+	}
 
 	const setBgColor = (val) => {
 		if (val < 75) {
-			return { background: rgb(0, 255, 0, Math.max(0.1, 0.6 - val / 75)) };
+			return { background: rgb(0, 255, 0, Math.max(0.1, 0.6 - val / 75)) }
 		} else {
-			return { background: rgb(255, 0, 0, Math.min(0.25, (val - 75) / 500)) };
+			return { background: rgb(255, 0, 0, Math.min(0.25, (val - 75) / 500)) }
 		}
-	};
+	}
 
 	return (
 		loaded && (
@@ -109,7 +104,7 @@ const Table = () => {
 							))}
 						</tr>
 						{order.map((player) => {
-							i++;
+							i++
 							return (
 								<React.Fragment key={i}>
 									<tr onClick={handleClick} className="table-row">
@@ -264,13 +259,13 @@ const Table = () => {
 										</tr>
 									)}
 								</React.Fragment>
-							);
+							)
 						})}
 					</tbody>
 				</table>
 			</div>
 		)
-	);
-};
+	)
+}
 
-export default Table;
+export default Table

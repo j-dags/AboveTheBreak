@@ -40,7 +40,8 @@
     "eject": "react-scripts eject",
     "server": "nodemon server",
     "start-server": "react-scripts start && npm run server ",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions",
+    "scrape": "node data/scrape.js"
   },
   "resolutions": {
     "graceful-fs": "^4.2.4"

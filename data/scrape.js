@@ -1,7 +1,7 @@
-const rp = require('request-promise-native');
-const fs = require('fs');
+const rp = require('request-promise-native')
+const fs = require('fs')
 async function main() {
-	console.log('Making API Request...');
+	console.log('Making API Request...')
 	// request the data from the JSON API
 	const results = await rp({
 		uri:
@@ -14,27 +14,27 @@ async function main() {
 			Referer: 'https://stats.nba.com/',
 		},
 		json: true,
-	});
+	})
 
-	const headers = results.resultSets[0].headers;
-	const data = results.resultSets[0].rowSet;
+	const headers = results.resultSets[0].headers
+	const data = results.resultSets[0].rowSet
 	const transformedData = data.map((player) => {
 		return player.reduce((obj, el, idx) => {
 			return {
 				...obj,
 				[headers[idx]]: el,
-			};
-		}, {});
-	});
-	console.log('Got results =', transformedData);
+			}
+		}, {})
+	})
+	console.log('Got results =', transformedData)
 	// // save the JSON to disk
 	await fs.promises.writeFile(
 		'./data/dataset.json',
 		JSON.stringify(transformedData, null, 2)
-	);
+	)
 
 	// console.log('results > ', results);
-	console.log('Done!');
+	console.log('Done!')
 }
 // start the main script
-main();
+main()
