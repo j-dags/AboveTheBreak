@@ -48,34 +48,39 @@ const ScatterPlot = ({ data, stat, name }) => {
 
 	return (
 		<div className="chart-container">
-			<div className="chart-title"> {stat.toUpperCase()} DISTRIBUTION</div>
-			<div>{stat} / Game</div>
-			<svg
-				width={width + margin.right + margin.left}
-				height={height + margin.top + margin.bottom}
-				className="chart"
-			>
-				<g
-					transform={'translate(' + margin.left + ',' + margin.top + ')'}
-					width={width}
-					height={height}
-					className="main"
+			<div className="scatterChart">
+				<div className="chart-title"> {stat.toUpperCase()} DISTRIBUTION</div>
+
+				<div className="yAxis">
+					<div>{stat} / Game</div>
+				</div>
+				<svg
+					width={width + margin.right + margin.left}
+					height={height + margin.top + margin.bottom}
+					className="chart"
 				>
-					<RenderCircles data={data} scale={{ x, y }} />
-					<TrendLine data={data} scale={{ x, y }} />
-					<Axis
-						axis="x"
-						transform={'translate(0,' + height + ')'}
-						scale={axisBottom().scale(x)}
-					/>
-					<Axis
-						axis="y"
-						transform="translate(0,0)"
-						scale={axisLeft().scale(y)}
-					/>
-				</g>
-			</svg>
-			<div>Games Played</div>
+					<g
+						transform={'translate(' + margin.left + ',' + margin.top + ')'}
+						width={width}
+						height={height}
+						className="main"
+					>
+						<RenderCircles data={data} scale={{ x, y }} />
+						<TrendLine data={data} scale={{ x, y }} />
+						<Axis
+							axis="x"
+							transform={'translate(0,' + height + ')'}
+							scale={axisBottom().scale(x)}
+						/>
+						<Axis
+							axis="y"
+							transform="translate(0,0)"
+							scale={axisLeft().scale(y)}
+						/>
+					</g>
+				</svg>
+				<div className="xAxis">Games Played</div>
+			</div>
 		</div>
 	)
 }
