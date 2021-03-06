@@ -29,7 +29,7 @@ async function main() {
 	console.log('Got results =', transformedData)
 	// // save the JSON to disk
 	await fs.promises.writeFile(
-		'./data/dataset.json',
+		'./data/dataset_2020-21.json',
 		JSON.stringify(transformedData, null, 2)
 	)
 

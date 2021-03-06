@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import tableData from '../data/data';
+import React, { useEffect, useState } from 'react'
+import { data15, data16, data17, data18, data19, data20 } from '../data/index'
 
 // import axios from 'axios';
 
 // import BarTable from './BarTable';
-import Histogram from './Histogram';
-import './LeagueCharts.css';
+import Histogram from './Histogram'
+import './LeagueCharts.css'
 
 const LeagueCharts = () => {
-	const [data, setData] = useState({});
-	// const [loaded, setLoaded] = useState(false);
-	const [year, setYear] = useState('2020-21');
-
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		const { data } = await axios.get(`/stats/${year}`);
-	// 		setData(data);
-	// 		// setLoaded(true);
-	// 	};
-	// 	fetchData();
-	// }, [year]);
+	const [datas, setData] = useState({})
+	const [year, setYear] = useState('2020-21')
 
 	useEffect(() => {
 		// USE FOR PLAYERSTATS (PREFERRED TABLE) SCRAPED AND STORED IN OUTPUT.JS
-		setData(tableData);
-		// setLoaded(true);
-	}, []);
+		let filtered
+		if (year === '2020-21')
+			filtered = data20.filter((player) => player.NBA_FANTASY_PTS_RANK < 200)
+		else if (year === '2019-20')
+			filtered = data19.filter((player) => player.NBA_FANTASY_PTS_RANK < 200)
+		else if (year === '2018-19')
+			filtered = data18.filter((player) => player.NBA_FANTASY_PTS_RANK < 200)
+		else if (year === '2017-18')
+			filtered = data17.filter((player) => player.NBA_FANTASY_PTS_RANK < 200)
+		else if (year === '2016-17')
+			filtered = data16.filter((player) => player.NBA_FANTASY_PTS_RANK < 200)
+		else if (year === '2015-16')
+			filtered = data15.filter((player) => player.NBA_FANTASY_PTS_RANK < 200)
+		setData(filtered)
+	}, [year])
 
 	return (
 		<div id="histogram-body">
@@ -59,20 +61,20 @@ const LeagueCharts = () => {
 				</select>
 			</div>
 			<div id="histogram-container">
-				<Histogram data={data} stat={'fg3M'} />
-				<Histogram data={data} stat={'pts'} />
-				<Histogram data={data} stat={'reb'} />
-				<Histogram data={data} stat={'ast'} />
-				<Histogram data={data} stat={'stl'} />
-				<Histogram data={data} stat={'blk'} />
-				<Histogram data={data} stat={'fgPct'} />
-				<Histogram data={data} stat={'ftPct'} />
-				<Histogram data={data} stat={'tov'} />
+				<Histogram data={datas} stat={'FG3M'} />
+				<Histogram data={datas} stat={'PTS'} />
+				<Histogram data={datas} stat={'REB'} />
+				<Histogram data={datas} stat={'AST'} />
+				<Histogram data={datas} stat={'STL'} />
+				<Histogram data={datas} stat={'BLK'} />
+				<Histogram data={datas} stat={'FG_PCT'} />
+				<Histogram data={datas} stat={'FT_PCT'} />
+				<Histogram data={datas} stat={'TOV'} />
 			</div>
 		</div>
-	);
+	)
 
 	// </div>
-};
+}
 
-export default LeagueCharts;
+export default LeagueCharts

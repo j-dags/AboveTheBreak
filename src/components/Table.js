@@ -3,11 +3,8 @@ import './Table.css'
 import React, { useEffect, useState } from 'react'
 import PlayerCharts from './PlayerCharts'
 import { headerData } from './rowData'
-import axios from 'axios'
 import { rgb } from 'd3'
-import data from '../data/dataset'
-// import getStats from './axios';
-import getStats from './nodeFetch'
+import { data20 } from '../data/dataset_2020-21'
 
 const Table = () => {
 	let [charts, setCharts] = useState(null)
@@ -23,7 +20,7 @@ const Table = () => {
 	useEffect(() => {
 		// Load player stats
 		if (order.length < 1) {
-			const order = data
+			const order = data20
 				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
 				.slice(0, 156)
 			setOrder(order)

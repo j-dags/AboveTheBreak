@@ -1,16 +1,10 @@
 /* eslint-disable */
-import Scatterplot2 from './Scatterplot2';
-import React, { useEffect, useState, useRef } from 'react';
-import {
-	useTransition,
-	useSpring,
-	useChain,
-	config,
-	animated as a,
-} from 'react-spring';
-import { Container, Item } from './styles';
+import Scatterplot from './Scatterplot'
+import React, { useEffect, useState, useRef } from 'react'
+import { useTransition, useSpring, useChain } from 'react-spring'
+import { Container, Item } from './Styles'
 
-import './PlayerCharts.css';
+import './PlayerCharts.css'
 
 const PlayerCharts = ({
 	data,
@@ -18,9 +12,8 @@ const PlayerCharts = ({
 	showCharts,
 	setShowCharts,
 	setCharts,
-	setClose,
 }) => {
-	const [heights, setHeight] = useState('2400px');
+	const [heights, setHeight] = useState('2400px')
 	const stats = [
 		'FG3M',
 		'PTS',
@@ -31,32 +24,32 @@ const PlayerCharts = ({
 		'FG_PCT',
 		'FT_PCT',
 		'TOV',
-	];
+	]
 
 	useEffect(() => {
-		console.log('width > ', window.innerWidth);
+		console.log('width > ', window.innerWidth)
 
 		// Handler to call on window resize
 		function handleResize() {
-			if (window.innerWidth < 825) setHeight('2400px');
-			else if (window.innerWidth > 1175) setHeight('850px');
-			else setHeight('1400px');
+			if (window.innerWidth < 825) setHeight('2400px')
+			else if (window.innerWidth > 1175) setHeight('850px')
+			else setHeight('1400px')
 		}
 
-		window.addEventListener('resize', handleResize);
-		handleResize();
+		window.addEventListener('resize', handleResize)
+		handleResize()
 
 		// Remove event listener on cleanup
-		return () => window.removeEventListener('resize', handleResize);
-	}, [window]);
+		return () => window.removeEventListener('resize', handleResize)
+	}, [window])
 
 	const clearActive = () => {
 		if (!showCharts) {
-			setCharts(null);
+			setCharts(null)
 		}
-	};
+	}
 
-	const springRef = useRef();
+	const springRef = useRef()
 	const props = useSpring({
 		ref: springRef,
 		config: { mass: 1, tension: 170, friction: 26, velocity: 10 },
@@ -65,9 +58,9 @@ const PlayerCharts = ({
 			height: showCharts ? heights : '0px',
 		},
 		onRest: () => clearActive(),
-	});
+	})
 
-	const transRef = useRef();
+	const transRef = useRef()
 	const transitions = useTransition(showCharts ? stats : [], (stat) => stat, {
 		ref: transRef,
 		unique: true,
@@ -75,7 +68,7 @@ const PlayerCharts = ({
 		from: { opacity: 0, transform: 'scale(0)' },
 		enter: { opacity: 1, transform: 'scale(1)' },
 		leave: { opacity: 0, transform: 'scale(0)' },
-	});
+	})
 
 	// This will orchestrate the two animations above, comment the last arg and it creates a sequence
 	useChain(showCharts ? [springRef, transRef] : [transRef, springRef], [
@@ -83,7 +76,7 @@ const PlayerCharts = ({
 		showCharts ? 0.25 : 0.6,
 		// 0,
 		// 1,
-	]);
+	])
 
 	return (
 		<Container
@@ -93,7 +86,7 @@ const PlayerCharts = ({
 		>
 			{transitions.map(({ item, key, props }) => (
 				<Item key={key} style={{ ...props, background: item.css }}>
-					<Scatterplot2
+					<Scatterplot
 						key={key}
 						data={data}
 						stat={key}
@@ -102,24 +95,7 @@ const PlayerCharts = ({
 				</Item>
 			))}
 		</Container>
-	);
-};
+	)
+}
 
-export default PlayerCharts;
-
-// return (
-// 	// <div className="container">
-// 	<React.Fragment>
-// 		{stats.map((stat) => (
-// 			<Scatterplot2
-// 				key={stat}
-// 				data={data}
-// 				stat={stat}
-// 				name={player.PLAYER_NAME}
-// 			/>
-// 		))}
-// 	</React.Fragment>
-// 	// </div>
-// );
-
-// const [showCharts, set] = useState(true);
+export default PlayerCharts
