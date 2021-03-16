@@ -30,6 +30,8 @@ h1 {
 
 .h1-container {
 	margin: 1rem 0rem 2rem 0rem;
+	display: flex;
+	align-items: center
 }
 
 #table-body {
@@ -138,10 +140,6 @@ th {
 	font-weight: 300;
 }
 
-/* tr {
-	height: 40px;
-} */
-
 table {
 	background-color: white;
 	border-collapse: collapse;
@@ -150,6 +148,11 @@ table {
 	/* width: 1300px; */
 	/* box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.15); */
 	box-shadow: 0 2px 4px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
+select {
+	height: 2rem;
+	margin-left: 1rem
 }
 
 @keyframes grow {

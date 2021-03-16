@@ -132,7 +132,7 @@ class Axis extends React.Component {
 	componentDidMount() {
 		const node = this.refs[this.props.axis]
 		// const myRef = React.createRef(this.props.axis)
-		console.log('this.refs > ', this.refs)
+		// console.log('this.refs > ', this.refs)
 		// console.log('myRef > ', myRef)
 		select(node).call(this.props.scale)
 	}
