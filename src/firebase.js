@@ -1,4 +1,5 @@
-const firebase = require('firebase')
+import firebase from 'firebase'
+// import firestore from 'firebase/firestore'
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyBNaaE58z64bpsjGtF6pdorU9O1NR145mM',
@@ -10,4 +11,4 @@ const firebaseConfig = {
 }
 
 const firebaseApp = firebase.initializeApp(firebaseConfig)
-module.exports = firebaseApp
+export default firebaseApp

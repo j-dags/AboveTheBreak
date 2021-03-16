@@ -45,7 +45,6 @@ const ScatterPlot = ({ data, stat, name }) => {
 			}),
 		])
 		.range([height, 0])
-
 	return (
 		<div className="chart-container">
 			<div className="scatterChart">
@@ -129,22 +128,10 @@ const TrendLine = (props) => {
 	)
 }
 
-// const Axis = (props) => {
-// 	// componentDidMount() {
-// 	// 	const node = useRef[this.props.axis];
-// 	// 	select(node).call(this.props.scale);
-// 	// }
-// 	const node = useRef[props.axis];
-// 	select(node).call(props.scale);
-
-// 	return (
-// 		<g className="main axis date" transform={props.transform} ref={node} />
-// 	);
-// };
-
 class Axis extends React.Component {
 	componentDidMount() {
 		const node = this.refs[this.props.axis]
+		// const myRef = React.createRef(this.props.axis)
 		select(node).call(this.props.scale)
 	}
 

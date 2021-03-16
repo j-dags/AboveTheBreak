@@ -4,11 +4,12 @@ import React, { useEffect, useState } from 'react'
 import PlayerCharts from './PlayerCharts'
 import { headerData } from './rowData'
 import { rgb } from 'd3'
-import { data20 } from '../data/dataset_2020-21'
+import firebaseApp from '../firebase'
+const db = firebaseApp.firestore()
 
 const Table = () => {
 	let [charts, setCharts] = useState(null)
-	let [filter, setFilter] = useState('nbaFantasyPtsRank')
+	let [filter, setFilter] = useState('NBA_FANTASY_PTS_RANK')
 	let [loaded, setLoaded] = useState(false)
 	let [order, setOrder] = useState([])
 	let [readyToClose, setClose] = useState(false)
@@ -18,15 +19,23 @@ const Table = () => {
 	let color = '#f6f6f6'
 
 	useEffect(() => {
-		// Load player stats
-		if (order.length < 1) {
-			const order = data20
-				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
-				.slice(0, 156)
-			setOrder(order)
+		const getPlayerData = async () => {
+			// Get and parse data from firestore
+			const snapshot = await db.collection('2020-21').get()
+			let arr = []
+			snapshot.forEach((el) => arr.push(el.data()))
+			// Filter and sort player data
+			if (arr.length > 1) {
+				arr = arr
+					.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
+					.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
+			}
 
+			// Save to state
+			setOrder(arr)
 			setLoaded(true)
 		}
+		getPlayerData()
 	}, [])
 
 	const handleClick = (evt) => {
