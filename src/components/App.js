@@ -2,7 +2,7 @@
 
 import './App.css'
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import Table from './Table'
 import Navbar from './Navbar'
@@ -10,6 +10,9 @@ import LeagueCharts from './LeagueCharts'
 import firebaseApp from '../firebase'
 const db = firebaseApp.firestore()
 
+import { Context } from './Context'
+
+// Check if a given date is within the last 24 hours
 const compareDate = (date) => {
 	const today = new Date().getTime()
 	date = Date.parse(date)
@@ -17,31 +20,34 @@ const compareDate = (date) => {
 }
 
 function App() {
-	const [state, setState] = useState({
-		loaded: false,
-		order: [],
-		season: '2020-21',
-	})
+	const [context, setContext] = useContext(Context)
 
 	useEffect(() => {
 		const getPlayerData = async () => {
-			// // Check localStorage for prev data
+			// Check localStorage for prev data
 			let storage = JSON.parse(localStorage.getItem('storage'))
-			// If localStorage exists, is less than 1 day old, and season hasn't changed, set the state from localStorage
+
+			// If localStorage exists, is less than 1 day old, and contains the current season, set the state from localStorage
 			if (
 				storage &&
-				compareDate(storage.date) &&
-				storage.season === state.season
-			)
-				setState({ ...state, order: storage.data, loaded: true })
+				Object.keys(storage).includes(context.season) &&
+				compareDate(storage[context.season].date)
+			) {
+				setContext({
+					...context,
+					order: storage[context.season].data,
+					loaded: true,
+				})
+			}
+
 			// Otherwise fetch data from the db
 			else {
 				// Get and parse data from firestore
-				const snapshot = await db.collection(state.season).get()
+				const snapshot = await db.collection(context.season).get()
 				let arr = []
 				snapshot.forEach((el) => arr.push(el.data()))
 				// Filter and sort player data
-				if (arr.length > 1) {
+				if (arr.length) {
 					arr = arr
 						.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
 						.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
@@ -49,45 +55,22 @@ function App() {
 
 				let storage = {
 					data: arr,
-					season: state.season,
 					date: new Date(),
 				}
-				console.log('arr > ', arr)
-				setState({ ...state, order: arr, loaded: true })
-				localStorage.setItem('storage', JSON.stringify(storage))
+				setContext({ ...context, order: arr, loaded: true })
+				localStorage.setItem(context.season, JSON.stringify(storage))
 			}
 		}
 
 		getPlayerData()
-	}, [state.season])
-
-	const updateSeason = (e) => {
-		console.log('e > ', e.target.value)
-		setState({ ...state, season: e.target.value })
-	}
+	}, [context.season])
 
 	return (
 		<Router>
 			<Navbar />
 			<Switch>
-				<Route
-					exact
-					path='/'
-					render={() => (
-						<Table order={state.order} updateSeason={updateSeason} />
-					)}
-				/>
-				<Route
-					path='/stat-charts'
-					render={() => (
-						<LeagueCharts
-							order={state.order}
-							updateSeason={updateSeason}
-							season={state.season}
-						/>
-					)}
-				/>
-				{/* <Route path="/load" component={Load} /> */}
+				<Route exact path='/' render={() => <Table />} />
+				<Route path='/stat-charts' render={() => <LeagueCharts />} />
 			</Switch>
 		</Router>
 	)

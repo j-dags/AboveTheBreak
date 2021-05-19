@@ -1,13 +1,15 @@
 /* eslint-disable */
 import './Table.css'
-import React, { useEffect, useState } from 'react'
-import PlayerCharts from './PlayerCharts'
-import { headerData } from './rowData'
+import React, { useContext, useEffect, useState } from 'react'
 import { rgb } from 'd3'
 import firebaseApp from '../firebase'
 const db = firebaseApp.firestore()
 
-const Table = ({ order, updateSeason, season }) => {
+import PlayerCharts from './PlayerCharts'
+import { headerData } from './rowData'
+import { Context } from './Context'
+
+const Table = () => {
 	const [state, setState] = useState({
 		selectedPlayer: null,
 		filter: 'NBA_FANTASY_PTS_RANK',
@@ -18,55 +20,11 @@ const Table = ({ order, updateSeason, season }) => {
 		season: '2020-21',
 	})
 
+	const [context, setContext] = useContext(Context)
+	console.log('context > ', context)
+
 	let i = 0
 	let color = '#f6f6f6'
-
-	// Check if a given date is within the last 24 hours
-	const compareDate = (date) => {
-		const today = new Date().getTime()
-		date = Date.parse(date)
-		return today - date < 86400000
-	}
-
-	// useEffect(() => {
-	// 	setState({ ...state, order: order })
-	// }, [order])
-	// useEffect(() => {
-	// 	const getPlayerData = async () => {
-	// 		// Check localStorage for prev data
-	// 		let storage = JSON.parse(localStorage.getItem('storage'))
-	// 		// If localStorage exists, is less than 1 day old, and season hasn't changed, set the state from localStorage
-	// 		if (
-	// 			storage &&
-	// 			compareDate(storage.date) &&
-	// 			storage.season === state.season
-	// 		)
-	// 			setState({ ...state, order: storage.data, loaded: true })
-	// 		// Otherwise fetch data from the db
-	// 		else {
-	// 			// Get and parse data from firestore
-	// 			const snapshot = await db.collection(state.season).get()
-	// 			let arr = []
-	// 			snapshot.forEach((el) => arr.push(el.data()))
-	// 			// Filter and sort player data
-	// 			if (arr.length > 1) {
-	// 				arr = arr
-	// 					.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
-	// 					.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
-	// 			}
-
-	// 			let storage = {
-	// 				data: arr,
-	// 				season: state.season,
-	// 				date: new Date(),
-	// 			}
-	// 			setState({ ...state, order: arr, loaded: true })
-	// 			localStorage.setItem('storage', JSON.stringify(storage))
-	// 		}
-	// 	}
-
-	// 	getPlayerData()
-	// }, [state.season])
 
 	const handleClick = (evt) => {
 		if (!state.selectedPlayer)
@@ -130,18 +88,18 @@ const Table = ({ order, updateSeason, season }) => {
 		}
 	}
 
-	console.log('order > ', order)
 	return (
-		state.loaded && (
+		context.loaded && (
 			<div id='table-body'>
 				<div className='h1-container'>
 					<h1>Player Rankings.</h1>
 					<select
 						name='Decimal'
 						className='ui fluid dropdown'
-						onChange={(e) => updateSeason(e)}
+						// onChange={(e) => setState({ ...state, season: e.target.value })}
+						onChange={(e) => setContext({ ...context, season: e.target.value })}
 						type='number'
-						value={season}
+						value={context.season}
 					>
 						<option key={0} value={'2020-21'}>
 							2020-21
@@ -180,7 +138,7 @@ const Table = ({ order, updateSeason, season }) => {
 								</th>
 							))}
 						</tr>
-						{order.map((player) => {
+						{context.order.map((player) => {
 							i++
 							return (
 								<React.Fragment key={i}>
