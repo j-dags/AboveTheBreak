@@ -7,72 +7,116 @@ import { rgb } from 'd3'
 import firebaseApp from '../firebase'
 const db = firebaseApp.firestore()
 
-const Table = () => {
-	let [charts, setCharts] = useState(null)
-	let [filter, setFilter] = useState('NBA_FANTASY_PTS_RANK')
-	let [loaded, setLoaded] = useState(false)
-	let [order, setOrder] = useState([])
-	let [readyToClose, setClose] = useState(false)
-	let [reverse, setReverse] = useState(false)
-	let [showCharts, setShowCharts] = useState(false)
-	let [year, setYear] = useState('2020-21')
+const Table = ({ order, updateSeason, season }) => {
+	const [state, setState] = useState({
+		selectedPlayer: null,
+		filter: 'NBA_FANTASY_PTS_RANK',
+		loaded: true,
+		order: [],
+		reverse: false,
+		showCharts: false,
+		season: '2020-21',
+	})
+
 	let i = 0
 	let color = '#f6f6f6'
 
-	useEffect(() => {
-		const getPlayerData = async () => {
-			// Get and parse data from firestore
-			const snapshot = await db.collection(year).get()
-			let arr = []
-			snapshot.forEach((el) => arr.push(el.data()))
-			// Filter and sort player data
-			if (arr.length > 1) {
-				arr = arr
-					.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
-					.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
-			}
+	// Check if a given date is within the last 24 hours
+	const compareDate = (date) => {
+		const today = new Date().getTime()
+		date = Date.parse(date)
+		return today - date < 86400000
+	}
 
-			// Save to state
-			setOrder(arr)
-			setLoaded(true)
-		}
-		getPlayerData()
-	}, [year])
+	// useEffect(() => {
+	// 	setState({ ...state, order: order })
+	// }, [order])
+	// useEffect(() => {
+	// 	const getPlayerData = async () => {
+	// 		// Check localStorage for prev data
+	// 		let storage = JSON.parse(localStorage.getItem('storage'))
+	// 		// If localStorage exists, is less than 1 day old, and season hasn't changed, set the state from localStorage
+	// 		if (
+	// 			storage &&
+	// 			compareDate(storage.date) &&
+	// 			storage.season === state.season
+	// 		)
+	// 			setState({ ...state, order: storage.data, loaded: true })
+	// 		// Otherwise fetch data from the db
+	// 		else {
+	// 			// Get and parse data from firestore
+	// 			const snapshot = await db.collection(state.season).get()
+	// 			let arr = []
+	// 			snapshot.forEach((el) => arr.push(el.data()))
+	// 			// Filter and sort player data
+	// 			if (arr.length > 1) {
+	// 				arr = arr
+	// 					.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
+	// 					.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
+	// 			}
+
+	// 			let storage = {
+	// 				data: arr,
+	// 				season: state.season,
+	// 				date: new Date(),
+	// 			}
+	// 			setState({ ...state, order: arr, loaded: true })
+	// 			localStorage.setItem('storage', JSON.stringify(storage))
+	// 		}
+	// 	}
+
+	// 	getPlayerData()
+	// }, [state.season])
 
 	const handleClick = (evt) => {
-		if (!charts) setCharts(evt.target.dataset.value)
-		setShowCharts(!showCharts)
+		if (!state.selectedPlayer)
+			setState({
+				...state,
+				selectedPlayer: evt.target.dataset.value,
+				showCharts: !state.showCharts,
+			})
+		else setState({ ...state, showCharts: !state.showCharts })
+	}
+
+	const setSelectedPlayer = (value = !state.selectedPlayer) => {
+		setState({ ...state, selectedPlayer: value })
+	}
+
+	const toggleShowChart = (value = !state.showCharts) => {
+		setState({ ...state, showCharts: value })
 	}
 
 	// Set new player order sorted depending on column clicked
 	const handleFilter = (evt) => {
 		const newFilter = evt.target.getAttribute('name')
 		let newReverse = false
-		if (newFilter === filter) {
-			newReverse = !reverse
+		if (newFilter === state.filter) {
+			newReverse = !state.reverse
 		}
 
-		setOrder(filterFnc(newFilter, newReverse))
-		setFilter(newFilter)
-		setReverse(newReverse)
+		setState({
+			...state,
+			order: filterFnc(newFilter, newReverse),
+			filter: newFilter,
+			reverse: newReverse,
+		})
 	}
 
 	// Return order array sorted depending on column clicked
 	const filterFnc = (filter, reverse) => {
-		console.log(filter, !!/RANK/.test(filter))
 		// Sort strings
 		if (filter === 'PLAYER_NAME' || filter === 'TEAM_ABBREVIATION') {
-			return [...order].sort(
+			return [...state.order].sort(
 				(a, b) => a[filter].localeCompare(b[filter]) * (reverse ? -1 : 1)
 			)
 		}
 		// Sort numbers
 		else if (!!/RANK/.test(filter) && filter !== 'TOV_RANK') {
-			return [...order].sort(
+			return [...state.order].sort(
 				(a, b) => (reverse ? 1 : -1) * (b[filter] - a[filter])
 			)
 		} else {
-			return [...order].sort(
+			return [...state.order].sort(
 				(a, b) => (reverse ? -1 : 1) * (b[filter] - a[filter])
 			)
 		}
@@ -86,18 +130,18 @@ const Table = () => {
 		}
 	}
 
+	console.log('order > ', order)
 	return (
-		loaded && (
-			// <div>HOL UP</div>
-			<div id="table-body">
-				<div className="h1-container">
+		state.loaded && (
+			<div id='table-body'>
+				<div className='h1-container'>
 					<h1>Player Rankings.</h1>
 					<select
-						name="Decimal"
-						className="ui fluid dropdown"
-						onChange={(e) => setYear(e.target.value)}
-						type="number"
-						value={year}
+						name='Decimal'
+						className='ui fluid dropdown'
+						onChange={(e) => updateSeason(e)}
+						type='number'
+						value={season}
 					>
 						<option key={0} value={'2020-21'}>
 							2020-21
@@ -121,12 +165,12 @@ const Table = () => {
 				</div>
 				<table>
 					<tbody>
-						<tr className="table-header" onClick={handleFilter}>
+						<tr className='table-header' onClick={handleFilter}>
 							{headerData.map((stat) => (
 								<th
 									key={stat.text}
 									className={
-										filter === stat.name
+										state.filter === stat.name
 											? stat.className + '-active'
 											: stat.className
 									}
@@ -140,154 +184,155 @@ const Table = () => {
 							i++
 							return (
 								<React.Fragment key={i}>
-									<tr onClick={handleClick} className="table-row">
+									<tr onClick={handleClick} className='table-row'>
 										<td
-											className="row-rank"
-											bgcolor={filter === 'NBA_FANTASY_PTS_RANK' ? color : null}
+											className='row-rank'
+											bgcolor={
+												state.filter === 'NBA_FANTASY_PTS_RANK' ? color : null
+											}
 										>
 											{player.NBA_FANTASY_PTS_RANK}
 										</td>
 										<td
-											bgcolor={filter === 'PLAYER_NAME' ? color : null}
-											className="row-name"
+											bgcolor={state.filter === 'PLAYER_NAME' ? color : null}
+											className='row-name'
 											data-value={player.PLAYER_NAME}
 										>
 											{player.PLAYER_NAME}
 										</td>
 										<td
-											bgcolor={filter === 'TEAM_ABBREVIATION' ? color : null}
-											className="row-team"
+											bgcolor={
+												state.filter === 'TEAM_ABBREVIATION' ? color : null
+											}
+											className='row-team'
 										>
 											{player.TEAM_ABBREVIATION}
 										</td>
 										<td
-											bgcolor={filter === 'GP' ? color : null}
-											className="row-team"
+											bgcolor={state.filter === 'GP' ? color : null}
+											className='row-team'
 										>
 											{player.GP}
 										</td>
 										<td
-											bgcolor={filter === 'FG3M' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'FG3M' ? color : null}
+											className='row-stat'
 										>
 											{player.FG3M.toFixed(1)}
 										</td>
 										<td
-											bgcolor={filter === 'PTS' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'PTS' ? color : null}
+											className='row-stat'
 										>
 											{player.PTS.toFixed(1)}
 										</td>
 										<td
-											bgcolor={filter === 'REB' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'REB' ? color : null}
+											className='row-stat'
 										>
 											{player.REB.toFixed(1)}
 										</td>
 										<td
-											bgcolor={filter === 'AST' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'AST' ? color : null}
+											className='row-stat'
 										>
 											{player.AST.toFixed(1)}
 										</td>
 										<td
-											bgcolor={filter === 'STL' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'STL' ? color : null}
+											className='row-stat'
 										>
 											{player.STL.toFixed(1)}
 										</td>
 										<td
-											bgcolor={filter === 'BLK' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'BLK' ? color : null}
+											className='row-stat'
 										>
 											{player.BLK.toFixed(1)}
 										</td>
 										<td
-											bgcolor={filter === 'FG_PCT' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'FG_PCT' ? color : null}
+											className='row-stat'
 										>
 											{player.FG_PCT.toFixed(2)}
 										</td>
 										<td
-											bgcolor={filter === 'FT_PCT' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'FT_PCT' ? color : null}
+											className='row-stat'
 										>
 											{player.FT_PCT.toFixed(2)}
 										</td>
 										<td
-											bgcolor={filter === 'TOV' ? color : null}
-											className="row-stat"
+											bgcolor={state.filter === 'TOV' ? color : null}
+											className='row-stat'
 										>
 											{player.TOV.toFixed()}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.FG3M_RANK)}
 										>
 											{player.FG3M_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.PTS_RANK)}
 										>
 											{player.PTS_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.REB_RANK)}
 										>
 											{player.REB_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.AST_RANK)}
 										>
 											{player.AST_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.STL_RANK)}
 										>
 											{player.STL_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.BLK_RANK)}
 										>
 											{player.BLK_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.FG_PCT_RANK)}
 										>
 											{player.FG_PCT_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(player.FT_PCT_RANK)}
 										>
 											{player.FT_PCT_RANK}
 										</td>
 										<td
-											className="row-stat"
+											className='row-stat'
 											style={setBgColor(250 - player.TOV_RANK)}
 										>
 											{player.TOV_RANK}
 										</td>
 									</tr>
-									{charts === player.PLAYER_NAME && (
-										<tr key={player.PTS} className="player-charts-row">
-											<td colSpan="22">
-												{/* <div className="active"> */}
+									{state.selectedPlayer === player.PLAYER_NAME && (
+										<tr key={player.PTS} className='player-charts-row'>
+											<td colSpan='22'>
 												<PlayerCharts
-													data={order}
+													data={state.order}
 													player={player}
-													setCharts={setCharts}
-													setClose={setClose}
-													setShowCharts={setShowCharts}
-													showCharts={showCharts}
+													showCharts={state.showCharts}
+													setSelectedPlayer={setSelectedPlayer}
+													toggleShowChart={toggleShowChart}
 												/>
-												{/* </div> */}
 											</td>
 										</tr>
 									)}
@@ -302,3 +347,5 @@ const Table = () => {
 }
 
 export default Table
+
+//text
