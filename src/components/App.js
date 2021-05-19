@@ -26,7 +26,7 @@ function App() {
 		const getPlayerData = async () => {
 			// Check localStorage for prev data
 			let storage = JSON.parse(localStorage.getItem('storage'))
-
+			//
 			// If localStorage exists, is less than 1 day old, and contains the current season, set the state from localStorage
 			if (
 				storage &&
