@@ -1,67 +1,67 @@
 {
-  "name": "nba-stats-tracker",
-  "version": "0.1.0",
-  "private": true,
-  "proxy": "http://localhost:3000",
-  "dependencies": {
-    "@agney/react-loading": "^0.1.2",
-    "@syncfusion/ej2-charts": "^18.4.30",
-    "@testing-library/jest-dom": "^5.11.8",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
-    "axios": "^0.21.1",
-    "d3": "^6.3.1",
-    "firebase": "^8.2.1",
-    "lodash": "^4.17.20",
-    "morgan": "^1.10.0",
-    "nba": "^4.13.0",
-    "node-fetch": "^2.6.1",
-    "nodemon": "^2.0.7",
-    "plottable": "^3.9.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
-    "react-spring": "^8.0.27",
-    "react-springs": "^1.1.0",
-    "recharts": "^1.8.5",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.1",
-    "styled-components": "^5.2.1",
-    "web-vitals": "^0.2.4",
-    "whatwg-fetch": "^3.6.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "nodemon server",
-    "start-server": "react-scripts start && npm run server ",
-    "preinstall": "npx npm-force-resolutions",
-    "scrape": "node data/scrape.js"
-  },
-  "resolutions": {
-    "graceful-fs": "^4.2.4"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "abovethebreak",
+	"version": "1.0.0",
+	"private": true,
+	"proxy": "http://localhost:3000",
+	"dependencies": {
+		"@agney/react-loading": "^0.1.2",
+		"@syncfusion/ej2-charts": "^18.4.30",
+		"@testing-library/jest-dom": "^5.11.8",
+		"@testing-library/react": "^11.2.2",
+		"@testing-library/user-event": "^12.6.0",
+		"axios": "^0.21.1",
+		"d3": "^6.3.1",
+		"firebase": "^8.2.1",
+		"lodash": "^4.17.20",
+		"morgan": "^1.10.0",
+		"nba": "^4.13.0",
+		"node-fetch": "^2.6.1",
+		"nodemon": "^2.0.7",
+		"plottable": "^3.9.0",
+		"react": "^16.0.0",
+		"react-dom": "^16.0.0",
+		"react-router-dom": "^5.2.0",
+		"react-scripts": "4.0.1",
+		"react-spring": "^8.0.27",
+		"react-springs": "^1.1.0",
+		"recharts": "^1.8.5",
+		"request": "^2.88.2",
+		"request-promise-native": "^1.0.9",
+		"semantic-ui-css": "^2.4.1",
+		"semantic-ui-react": "^2.0.1",
+		"styled-components": "^5.2.1",
+		"web-vitals": "^0.2.4",
+		"whatwg-fetch": "^3.6.1"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"server": "nodemon server",
+		"start-server": "react-scripts start && npm run server ",
+		"preinstall": "npx npm-force-resolutions",
+		"scrape": "node data/scrape.js"
+	},
+	"resolutions": {
+		"graceful-fs": "^4.2.4"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

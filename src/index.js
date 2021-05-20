@@ -4,7 +4,6 @@ import './index.css'
 import App from './components/App'
 import reportWebVitals from './reportWebVitals'
 import { CounterContextProvider } from './components/Context'
-// import 'semantic-ui-css/semantic.min.css';
 
 ReactDOM.render(
 	<React.StrictMode>
