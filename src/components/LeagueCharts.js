@@ -1,7 +1,6 @@
 /* eslint-disable */
-
+import { useContext } from 'react'
 import { Context } from './Context'
-import firebaseApp from '../firebase'
 import Histogram from './Histogram'
 import './LeagueCharts.css'
 
