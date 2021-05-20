@@ -24,41 +24,39 @@ function App() {
 
 	useEffect(() => {
 		const getPlayerData = async () => {
-			// Check localStorage for prev data
-			let storage = JSON.parse(localStorage.getItem('storage'))
-			//
-			// If localStorage exists, is less than 1 day old, and contains the current season, set the state from localStorage
-			if (
-				storage &&
-				Object.keys(storage).includes(context.season) &&
-				compareDate(storage[context.season].date)
-			) {
-				setContext({
-					...context,
-					order: storage[context.season].data,
-					loaded: true,
-				})
-			}
+			if (context) {
+				// Check localStorage for prev data
+				let storage = JSON.parse(localStorage.getItem(context.season))
 
-			// Otherwise fetch data from the db
-			else {
-				// Get and parse data from firestore
-				const snapshot = await db.collection(context.season).get()
-				let arr = []
-				snapshot.forEach((el) => arr.push(el.data()))
-				// Filter and sort player data
-				if (arr.length) {
-					arr = arr
-						.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
-						.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
+				// Check if content was loaded from storage and is less than a day old
+				if (storage && compareDate(storage.date)) {
+					setContext({
+						...context,
+						order: storage.data,
+						loaded: true,
+					})
 				}
+				// Otherwise fetch data from the db
+				else {
+					// Get and parse data from firestore
+					const snapshot = await db.collection(context.season).get()
+					let arr = []
+					snapshot.forEach((el) => arr.push(el.data()))
+					// Filter and sort player data
+					if (arr.length) {
+						arr = arr
+							.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
+							.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
+					}
 
-				let storage = {
-					data: arr,
-					date: new Date(),
+					// Save data to localStorage and context
+					let storage = {
+						data: arr,
+						date: new Date(),
+					}
+					setContext({ ...context, order: arr, loaded: true })
+					localStorage.setItem(context.season, JSON.stringify(storage))
 				}
-				setContext({ ...context, order: arr, loaded: true })
-				localStorage.setItem(context.season, JSON.stringify(storage))
 			}
 		}
 

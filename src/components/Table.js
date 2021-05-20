@@ -1,10 +1,9 @@
 /* eslint-disable */
 import './Table.css'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { rgb } from 'd3'
-import firebaseApp from '../firebase'
-const db = firebaseApp.firestore()
 
+import TableRow from './TableRow'
 import PlayerCharts from './PlayerCharts'
 import { headerData } from './rowData'
 import { Context } from './Context'
@@ -13,18 +12,11 @@ const Table = () => {
 	const [state, setState] = useState({
 		selectedPlayer: null,
 		filter: 'NBA_FANTASY_PTS_RANK',
-		loaded: true,
-		order: [],
 		reverse: false,
 		showCharts: false,
-		season: '2020-21',
 	})
-
 	const [context, setContext] = useContext(Context)
-	console.log('context > ', context)
-
 	let i = 0
-	let color = '#f6f6f6'
 
 	const handleClick = (evt) => {
 		if (!state.selectedPlayer)
@@ -54,27 +46,27 @@ const Table = () => {
 
 		setState({
 			...state,
-			order: filterFnc(newFilter, newReverse),
 			filter: newFilter,
 			reverse: newReverse,
 		})
+		setContext({ ...context, order: filterFnc(newFilter, newReverse) })
 	}
 
 	// Return order array sorted depending on column clicked
 	const filterFnc = (filter, reverse) => {
 		// Sort strings
 		if (filter === 'PLAYER_NAME' || filter === 'TEAM_ABBREVIATION') {
-			return [...state.order].sort(
+			return [...context.order].sort(
 				(a, b) => a[filter].localeCompare(b[filter]) * (reverse ? -1 : 1)
 			)
 		}
 		// Sort numbers
 		else if (!!/RANK/.test(filter) && filter !== 'TOV_RANK') {
-			return [...state.order].sort(
+			return [...context.order].sort(
 				(a, b) => (reverse ? 1 : -1) * (b[filter] - a[filter])
 			)
 		} else {
-			return [...state.order].sort(
+			return [...context.order].sort(
 				(a, b) => (reverse ? -1 : 1) * (b[filter] - a[filter])
 			)
 		}
@@ -96,7 +88,6 @@ const Table = () => {
 					<select
 						name='Decimal'
 						className='ui fluid dropdown'
-						// onChange={(e) => setState({ ...state, season: e.target.value })}
 						onChange={(e) => setContext({ ...context, season: e.target.value })}
 						type='number'
 						value={context.season}
@@ -142,145 +133,12 @@ const Table = () => {
 							i++
 							return (
 								<React.Fragment key={i}>
-									<tr onClick={handleClick} className='table-row'>
-										<td
-											className='row-rank'
-											bgcolor={
-												state.filter === 'NBA_FANTASY_PTS_RANK' ? color : null
-											}
-										>
-											{player.NBA_FANTASY_PTS_RANK}
-										</td>
-										<td
-											bgcolor={state.filter === 'PLAYER_NAME' ? color : null}
-											className='row-name'
-											data-value={player.PLAYER_NAME}
-										>
-											{player.PLAYER_NAME}
-										</td>
-										<td
-											bgcolor={
-												state.filter === 'TEAM_ABBREVIATION' ? color : null
-											}
-											className='row-team'
-										>
-											{player.TEAM_ABBREVIATION}
-										</td>
-										<td
-											bgcolor={state.filter === 'GP' ? color : null}
-											className='row-team'
-										>
-											{player.GP}
-										</td>
-										<td
-											bgcolor={state.filter === 'FG3M' ? color : null}
-											className='row-stat'
-										>
-											{player.FG3M.toFixed(1)}
-										</td>
-										<td
-											bgcolor={state.filter === 'PTS' ? color : null}
-											className='row-stat'
-										>
-											{player.PTS.toFixed(1)}
-										</td>
-										<td
-											bgcolor={state.filter === 'REB' ? color : null}
-											className='row-stat'
-										>
-											{player.REB.toFixed(1)}
-										</td>
-										<td
-											bgcolor={state.filter === 'AST' ? color : null}
-											className='row-stat'
-										>
-											{player.AST.toFixed(1)}
-										</td>
-										<td
-											bgcolor={state.filter === 'STL' ? color : null}
-											className='row-stat'
-										>
-											{player.STL.toFixed(1)}
-										</td>
-										<td
-											bgcolor={state.filter === 'BLK' ? color : null}
-											className='row-stat'
-										>
-											{player.BLK.toFixed(1)}
-										</td>
-										<td
-											bgcolor={state.filter === 'FG_PCT' ? color : null}
-											className='row-stat'
-										>
-											{player.FG_PCT.toFixed(2)}
-										</td>
-										<td
-											bgcolor={state.filter === 'FT_PCT' ? color : null}
-											className='row-stat'
-										>
-											{player.FT_PCT.toFixed(2)}
-										</td>
-										<td
-											bgcolor={state.filter === 'TOV' ? color : null}
-											className='row-stat'
-										>
-											{player.TOV.toFixed()}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.FG3M_RANK)}
-										>
-											{player.FG3M_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.PTS_RANK)}
-										>
-											{player.PTS_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.REB_RANK)}
-										>
-											{player.REB_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.AST_RANK)}
-										>
-											{player.AST_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.STL_RANK)}
-										>
-											{player.STL_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.BLK_RANK)}
-										>
-											{player.BLK_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.FG_PCT_RANK)}
-										>
-											{player.FG_PCT_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(player.FT_PCT_RANK)}
-										>
-											{player.FT_PCT_RANK}
-										</td>
-										<td
-											className='row-stat'
-											style={setBgColor(250 - player.TOV_RANK)}
-										>
-											{player.TOV_RANK}
-										</td>
-									</tr>
+									<TableRow
+										filter={state.filter}
+										handleClick={handleClick}
+										player={player}
+										setBgColor={setBgColor}
+									/>
 									{state.selectedPlayer === player.PLAYER_NAME && (
 										<tr key={player.PTS} className='player-charts-row'>
 											<td colSpan='22'>
@@ -305,5 +163,3 @@ const Table = () => {
 }
 
 export default Table
-
-//text

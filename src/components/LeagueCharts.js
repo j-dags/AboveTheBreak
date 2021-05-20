@@ -1,42 +1,13 @@
 /* eslint-disable */
 
-import React, { useContext, useEffect, useState } from 'react'
 import { Context } from './Context'
 import firebaseApp from '../firebase'
 import Histogram from './Histogram'
 import './LeagueCharts.css'
 
-const db = firebaseApp.firestore()
-
-const LeagueCharts = ({ order, season, updateSeason }) => {
-	const [datas, setData] = useState({})
-	const [year, setYear] = useState('2020-21')
+const LeagueCharts = () => {
 	const [context, setContext] = useContext(Context)
 
-	// useEffect(() => {
-	// 	// USE FOR PLAYERSTATS (PREFERRED TABLE) SCRAPED AND STORED IN OUTPUT.JS
-	// 	const getPlayerData = async () => {
-	// 		// Get and parse data from firestore
-	// 		const snapshot = await db.collection(year).get()
-	// 		let arr = []
-	// 		snapshot.forEach((el) => arr.push(el.data()))
-	// 		// Filter and sort player data
-	// 		if (arr.length > 1) {
-	// 			arr = arr
-	// 				.filter((player) => player.NBA_FANTASY_PTS_RANK <= 150)
-	// 				.sort((a, b) => a.NBA_FANTASY_PTS_RANK - b.NBA_FANTASY_PTS_RANK)
-	// 		}
-	// 		// Save to state
-	// 		setData(arr)
-	// 	}
-	// 	getPlayerData()
-	// }, [year])
-
-	// useEffect(() => {
-	// 	setYear(season)
-	// }, [season])
-
-	// console.log('datas > ', datas)
 	return (
 		<div id='histogram-body'>
 			<div className='histogram-header'>
@@ -81,8 +52,6 @@ const LeagueCharts = ({ order, season, updateSeason }) => {
 			</div>
 		</div>
 	)
-
-	// </div>
 }
 
 export default LeagueCharts
