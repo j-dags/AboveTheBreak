@@ -10,8 +10,8 @@ const PlayerCharts = ({
 	data,
 	player,
 	showCharts,
-	setShowCharts,
-	setCharts,
+	setSelectedPlayer,
+	toggleShowChart,
 }) => {
 	const [heights, setHeight] = useState('2400px')
 	const stats = [
@@ -43,7 +43,7 @@ const PlayerCharts = ({
 
 	const clearActive = () => {
 		if (!showCharts) {
-			setCharts(null)
+			setSelectedPlayer(null)
 		}
 	}
 
@@ -72,15 +72,13 @@ const PlayerCharts = ({
 	useChain(showCharts ? [springRef, transRef] : [transRef, springRef], [
 		0,
 		showCharts ? 0.25 : 0.6,
-		// 0,
-		// 1,
 	])
 
 	return (
 		<Container
-			className="script-box"
+			className='script-box'
 			style={props}
-			onClick={() => setShowCharts(!showCharts)}
+			onClick={() => toggleShowChart()}
 		>
 			{transitions.map(({ item, key, props }) => (
 				<Item key={key} style={{ ...props, background: item.css }}>

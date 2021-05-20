@@ -143,7 +143,7 @@ const Table = () => {
 										<tr key={player.PTS} className='player-charts-row'>
 											<td colSpan='22'>
 												<PlayerCharts
-													data={state.order}
+													data={context.order}
 													player={player}
 													showCharts={state.showCharts}
 													setSelectedPlayer={setSelectedPlayer}
