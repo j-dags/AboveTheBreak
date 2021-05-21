@@ -1,13 +1,12 @@
 const firebase = require('firebase')
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyC0qO5S2ooFY-i9a29Kw8tN07zUoOZndwc',
-	authDomain: 'abovethebreakbball.firebaseapp.com',
-	projectId: 'abovethebreakbball',
-	storageBucket: 'abovethebreakbball.appspot.com',
-	messagingSenderId: '432746437016',
-	appId: '1:432746437016:web:e939deee5e73d2b8cbb3ed',
-	measurementId: 'G-GNJCBFP82F',
+	apiKey: 'AIzaSyBNaaE58z64bpsjGtF6pdorU9O1NR145mM',
+	authDomain: 'nba-stats-a3df7.firebaseapp.com',
+	projectId: 'nba-stats-a3df7',
+	storageBucket: 'nba-stats-a3df7.appspot.com',
+	messagingSenderId: '598163316501',
+	appId: '1:598163316501:web:307476e6fd3c881422931c',
 }
 
 const firebaseApp = firebase.initializeApp(firebaseConfig)
