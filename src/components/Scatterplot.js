@@ -13,7 +13,7 @@ const sortNumber = (a, b) => {
 	return a - b
 }
 
-const ScatterPlot = ({ data, stat, name }) => {
+const ScatterPlot = ({ chartWidth, data, stat, name }) => {
 	let playerDot = []
 	data = data.map((player) => {
 		let color = '#E8EFF6'
@@ -25,7 +25,8 @@ const ScatterPlot = ({ data, stat, name }) => {
 	data.push(playerDot)
 
 	const margin = { top: 20, right: 15, bottom: 60, left: 60 }
-	const width = 300 - margin.left - margin.right
+	const width = 275 - margin.left - margin.right
+	// const width = chartWidth - margin.left - margin.right
 	const height = 200 - margin.top - margin.bottom
 
 	const x = scaleLinear()
