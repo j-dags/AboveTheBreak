@@ -64,7 +64,7 @@ const ScatterPlot = ({ data, stat, name }) => {
 						height={height}
 						className="main"
 					>
-						<RenderCircles data={data} scale={{ x, y }} />
+						<RenderCircles data={[playerDot]} scale={{ x, y }} />
 						<TrendLine data={data} scale={{ x, y }} />
 						<Axis
 							axis="x"
@@ -131,9 +131,6 @@ const TrendLine = (props) => {
 class Axis extends React.Component {
 	componentDidMount() {
 		const node = this.refs[this.props.axis]
-		// const myRef = React.createRef(this.props.axis)
-		// console.log('this.refs > ', this.refs)
-		// console.log('myRef > ', myRef)
 		select(node).call(this.props.scale)
 	}
 
