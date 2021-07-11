@@ -42,6 +42,7 @@ h1 {
 	text-align: left;
 	color: #545454;
 	padding-left: 1rem;
+	min-width: 120px;
 }
 
 .row-name:hover {
@@ -51,16 +52,27 @@ h1 {
 .row-rank {
 	text-align: center;
 	width: 60px;
+	min-width: 60px;
 }
 
 .row-stat {
 	text-align: center;
 	width: 40px;
+	min-width: 30px;
 }
 
 .row-team {
 	text-align: center;
 	width: 50px;
+}
+
+#table-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin: 3rem;
+	align-items: center;
+	width: 100%;
 }
 
 .table-header th {
@@ -132,6 +144,7 @@ table {
 	padding: 1rem;
 	border-radius: 5px;
 	box-shadow: 0 2px 4px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+	margin: 0rem 2rem;
 }
 
 select {
@@ -148,12 +161,15 @@ select {
 	}
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 825px) {
 	#table-body {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		margin: 3rem;
-		align-items: center;
+		align-items: flex-start;
+		margin: 3rem 0rem;
+		overflow-x: auto;
+		width: 90vw;
+	}
+
+	table {
+		margin: 0
 	}
 }

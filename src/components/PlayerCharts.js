@@ -29,8 +29,8 @@ const PlayerCharts = ({
 	useEffect(() => {
 		// Handler to call on window resize
 		function handleResize() {
-			if (window.innerWidth < 825) setHeight('2400px')
-			else if (window.innerWidth > 1175) setHeight('850px')
+			// if (window.innerWidth < 825) setHeight('2400px')
+		  if (window.innerWidth > 1130) setHeight('850px')
 			else setHeight('1400px')
 		}
 

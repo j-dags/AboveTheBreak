@@ -7,7 +7,7 @@ cursor: pointer;
 will-change: height;
 display: grid;
 grid-template-columns: repeat(auto-fit, 325px);
-grid-gap: 3em;
+grid-gap: 2em;
 padding: 0em 2em;
 place-content: center
 }
